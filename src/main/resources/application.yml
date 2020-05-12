@@ -1,4 +1,3 @@
-#         奇趣源码商城                    www.qiqucode.com          #
 
 server:
   session-timeout: 1800
