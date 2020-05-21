@@ -1,4 +1,4 @@
-package com.bootdo.config;
+package com.bootdo.Es.config;
 
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;

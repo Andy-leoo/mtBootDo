@@ -3,13 +3,14 @@ package com.bootdo.common.utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
  * 日期处理
  */
-public class DateUtils {
+public class  DateUtils{
     private final static Logger logger = LoggerFactory.getLogger(DateUtils.class);
     /**
      * 时间格式(yyyy-MM-dd)
@@ -87,5 +88,33 @@ public class DateUtils {
         }
         r += "前";
         return r;
+    }
+
+    /**
+     * 比较两个日期相差的天数，第一个日期比第二个日期要晚
+     * @return
+     *
+     * SimpleDateFormat 线程不安全 使用局部变量或使用其他线程安全的类型
+     * 例如 commons-lang de  fastdateformat 或使用 threadlocal变量
+     */
+    public static int getMargin(String date1 ,String date2){
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        int margin;
+
+        try {
+            ParsePosition pos = new ParsePosition(0);
+            ParsePosition pos1 = new ParsePosition(0);
+            Date d1 = sdf.parse(date1,pos);
+            Date d2 = sdf.parse(date2,pos);
+
+            long l = d1.getTime() - d2.getTime();
+
+            margin = (int) (l / 60 * 60 * 24 * 1000);
+            return  margin;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }
