@@ -3,6 +3,7 @@ package com.bootdo.workcode.utils;
 import com.bootdo.common.utils.DateUtils;
 import com.bootdo.workcode.bean.ContractTime;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -25,23 +26,25 @@ public class ContractTimeUtils {
             if ((list.size() >1) && (i < list.size()-1)){
                 ContractTime do1 = list.get(i);
                 ContractTime do2 = list.get(i+1);
-                /**
-                 * 按照结束时间排序，判断相邻的起始日期对比
-                 * 1. 如果后面的起始日期比签一份起始日期早，后一份的合约时间覆盖前一份
-                 * 2. 如果后面的起始日期在前一个时间有限期内，时间合并成一个时间段
-                 */
-                if (DateUtils.getMargin(do2.getStartTime() , do1.getStartTime()) < 0){
-                    list.remove(i);
-                    listSort(list);
-                    i--;
-                }else {
-                    list.remove(i);
-                    list.remove(i);
-                    ContractTime contractTime = new ContractTime();
-                    contractTime.setStartTime(do1.getStartTime());
-                    contractTime.setEndTime(do2.getEndTime());
-                    listSort(list);
-                    i--;
+                if (DateUtils.getMargin(do2.getStartTime() , do1.getEndTime()) < 0) {
+                    /**
+                     * 按照结束时间排序，判断相邻的起始日期对比
+                     * 1. 如果后面的起始日期比签一份起始日期早，后一份的合约时间覆盖前一份
+                     * 2. 如果后面的起始日期在前一个时间有限期内，时间合并成一个时间段
+                     */
+                    if (DateUtils.getMargin(do2.getStartTime() , do1.getStartTime()) < 0){
+                        list.remove(i);
+                        listSort(list);
+                        i--;
+                    }else {
+                        list.remove(i);
+                        list.remove(i);
+                        ContractTime contractTime = new ContractTime();
+                        contractTime.setStartTime(do1.getStartTime());
+                        contractTime.setEndTime(do2.getEndTime());
+                        listSort(list);
+                        i--;
+                    }
                 }
             }
         }
@@ -61,5 +64,26 @@ public class ContractTimeUtils {
             }
         });
         return list;
+    }
+
+
+    public static void main(String[] args) {
+        List<ContractTime> list = new ArrayList<>();
+        ContractTime time1 = new ContractTime();
+        time1.setStartTime("2020-01-31");
+        time1.setEndTime("2020-03-01");
+        ContractTime time2 = new ContractTime();
+        time2.setStartTime("2020-02-31");
+        time2.setEndTime("2020-05-01");
+        list.add(time1);
+        list.add(time2);
+
+        List<ContractTime> contractTimes = factoryList(list);
+
+        for (ContractTime time :
+                contractTimes) {
+            System.out.println(time.getStartTime() +" : "+ time.getEndTime());
+        }
+
     }
 }

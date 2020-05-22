@@ -106,7 +106,7 @@ public class  DateUtils{
             ParsePosition pos = new ParsePosition(0);
             ParsePosition pos1 = new ParsePosition(0);
             Date d1 = sdf.parse(date1,pos);
-            Date d2 = sdf.parse(date2,pos);
+            Date d2 = sdf.parse(date2,pos1);
 
             long l = d1.getTime() - d2.getTime();
 
