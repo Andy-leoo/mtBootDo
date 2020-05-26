@@ -1,5 +1,6 @@
 package com.bootdo.workcode.bean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,9 +18,9 @@ public class MsgLabel {
 
     private String lv3Label;
 
-    private List<MsgLabel> list11;
+    private List<MsgLabel> list11 = new ArrayList<>();
 
-    private List<MsgLabel> list111;
+    private List<MsgLabel> list111 = new ArrayList<>();
 
     public String getLv1Label() {
         return lv1Label;

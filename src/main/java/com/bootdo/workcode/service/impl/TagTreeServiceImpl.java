@@ -3,6 +3,7 @@ package com.bootdo.workcode.service.impl;
 import com.bootdo.workcode.bean.MsgLabel;
 import com.bootdo.workcode.service.ITagTreeService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotBlank;
 import java.util.*;
@@ -18,6 +19,7 @@ import static java.util.stream.Collectors.toCollection;
  * @Description: 3层标签实现
  * @date 2020/5/1117:33
  */
+@Service
 public class TagTreeServiceImpl implements ITagTreeService {
 
     public List<MsgLabel> getMsgLabelByHierarchy(List<MsgLabel> labelList){
@@ -50,7 +52,7 @@ public class TagTreeServiceImpl implements ITagTreeService {
 
                 if (StringUtils.equals(label1.getLv1Label(),label.getLv1Label())) {
                     MsgLabel msgLabel2 = new MsgLabel();
-                    msgLabel2.setLv1Label(label.getLv1Label());
+//                    msgLabel2.setLv1Label(label.getLv1Label());
                     msgLabel2.setLv2Label(label.getLv2Label());
                     label1.getList11().add(msgLabel2);
                 }
@@ -74,7 +76,7 @@ public class TagTreeServiceImpl implements ITagTreeService {
                 if (StringUtils.equals(label12.getLv1Label(),label123.getLv1Label())
                         && StringUtils.equals(label12.getLv2Label(),label123.getLv2Label())) {
                     MsgLabel label3  = new MsgLabel();
-                    label3.setLv2Label(label12.getLv2Label());
+//                    label3.setLv2Label(label12.getLv2Label());
                     label3.setLv3Label(label12.getLv3Label());
                     label12.getList111().add(label3);
                 }
@@ -90,8 +92,8 @@ public class TagTreeServiceImpl implements ITagTreeService {
             lv1BlabelList.forEach(label1 ->{
                 if (StringUtils.equals(label.getLv1Label(),label1.getLv1Label())) {
                     MsgLabel label2 = new MsgLabel();
-                    label2.setLv1Label(label.getLv1Label());
-                    label2.setLv2Label(label.getLv2Label());
+//                    label2.setLv1Label(label.getLv1Label());
+//                    label2.setLv2Label(label.getLv2Label());
                     label2.setLv3Label(label.getLv3Label());
                     label2.setList111(label.getList111());
                     label1.getList11().add(label2);
