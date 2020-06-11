@@ -53,6 +53,6 @@ public class DateBean {
 
     @Override
     public String toString() {
-        return "年份： "+ yearStr +"周 ：" +weekStr +"开始时间 ："+startTime + "结束时间 ：" + endTime;
+        return "年份:"+ yearStr +"    周:" +weekStr +"    开始时间 ："+startTime + "   结束时间 ：" + endTime;
     }
 }
