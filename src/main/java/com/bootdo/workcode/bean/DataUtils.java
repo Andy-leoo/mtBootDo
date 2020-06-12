@@ -226,45 +226,56 @@ public class DataUtils {
         Calendar eCalendar = Calendar.getInstance();
         eCalendar.setFirstDayOfWeek(Calendar.MONDAY);
         eCalendar.setTime(eDate);
+        DateBean dateBean = new DateBean();
 
         // 首次需要进入
         boolean bool = true;
+        int flag = 0;
 
         while(sCalendar.getTime().getTime()<eCalendar.getTime().getTime()){
-            // 周一  周日
+            //Calendar.DAY_OF_WEEK 一周中的第几天  sun 下标1  mon 下标2  为 周一 或周日 都进入
             if(bool||sCalendar.get(Calendar.DAY_OF_WEEK)==2||sCalendar.get(Calendar.DAY_OF_WEEK)==1){
+                if (bool||sCalendar.get(Calendar.DAY_OF_WEEK)==2){
+                    dateBean = new DateBean();
+                    System.out.println("周一----： "+dateFormat.format(sCalendar.getTime()));
+                    dateBean.setStartTime(dateFormat.format(sCalendar.getTime()));
+                    bool = false;
+                    flag = 1;
+                }
+                if (flag == 1 &&sCalendar.get(Calendar.DAY_OF_WEEK)==1){
+                    System.out.println("周日----： "+dateFormat.format(sCalendar.getTime()));
+                    dateBean.setYearStr(String.valueOf(sCalendar.get(Calendar.YEAR)));
+                    dateBean.setWeekStr(String.valueOf(sCalendar.get(Calendar.WEEK_OF_YEAR)));
+                    dateBean.setEndTime(dateFormat.format(sCalendar.getTime()));
+                    flag = 2;
+                }
                 listWeekStr.add(dateFormat.format(sCalendar.getTime()));
+
                 bool = false;
+                if (flag ==2) {
+                    listWeek.add(dateBean);
+                    flag = 0;
+                }
             }
+            // 往后加一天
             sCalendar.add(Calendar.DAY_OF_MONTH, 1);
         }
+        // 放入 给的最后日期
         listWeekStr.add(dateFormat.format(eCalendar.getTime()));
-
-        System.out.println("list 时间串"+listWeekStr);
-        for (int i = 0 ; i < listWeekStr.size() ; i++){
-            // 偶数 位进入
-            if (i%2==0){
-                DateBean dateBean = new DateBean();
-                String startTime = listWeekStr.get(i);
-                String endTime = listWeekStr.get(i+1);
-                Date stDate = dateFormat.parse(endTime);
-                Calendar stCalendar = Calendar.getInstance();
-                stCalendar.setFirstDayOfWeek(Calendar.MONDAY);
-                stCalendar.setTime(stDate);
-                dateBean.setYearStr(String.valueOf(stCalendar.get(Calendar.YEAR)));
-                dateBean.setWeekStr(String.valueOf(stCalendar.get(Calendar.WEEK_OF_YEAR)));
-                dateBean.setStartTime(startTime);
-                dateBean.setEndTime(endTime);
-                listWeek.add(dateBean);
-            }
+        System.out.println("zaiwai方法 ： "+dateFormat.format(eCalendar.getTime()));
+        if(listWeekStr.size()%2!=0){
+            listWeekStr.add(dateFormat.format(eCalendar.getTime()));
+            System.out.println("出来方法 ： "+dateFormat.format(eCalendar.getTime()));
         }
-        return listWeek;
+        System.out.println("list 时间串"+listWeekStr);
+        System.out.println(listWeek);
+        return null;
     }
 
     public static void main(String[] args) throws ParseException {
 //        Integer weekOfYear = getWeekOfYear2("2020-06-11");
 //        System.out.println(weekOfYear);
-        List<DateBean> week = doDateByType("2019-12-23", "2020-06-11");
+        List<DateBean> week = doDateByType("2020-12-20", "2021-01-11");
         System.out.println(week);
     }
 
