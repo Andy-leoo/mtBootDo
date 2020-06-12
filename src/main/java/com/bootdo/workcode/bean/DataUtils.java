@@ -1,6 +1,7 @@
 package com.bootdo.workcode.bean;
 
 import org.apache.velocity.runtime.directive.Foreach;
+import sun.util.locale.provider.FallbackLocaleProviderAdapter;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -212,29 +213,25 @@ public class DataUtils {
 
 
     public static List<DateBean> doDateByType( String startDate, String endDate) throws ParseException {
-        List<DateBean> listWeekOrMonth = new ArrayList<DateBean>();
+        List<DateBean> listWeek = new ArrayList<DateBean>();
         List<String> listWeekStr = new ArrayList<String>();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//        String startDate = (String)map.get("startDate");
-//        String endDate = (String)map.get("endDate");
         //开始时间
         Date sDate = dateFormat.parse(startDate);
         Calendar sCalendar = Calendar.getInstance();
         sCalendar.setFirstDayOfWeek(Calendar.MONDAY);
         sCalendar.setTime(sDate);
-        sCalendar.get(Calendar.YEAR);
-        sCalendar.get(Calendar.WEEK_OF_YEAR);
-
         //结束时间
         Date eDate = dateFormat.parse(endDate);
         Calendar eCalendar = Calendar.getInstance();
         eCalendar.setFirstDayOfWeek(Calendar.MONDAY);
         eCalendar.setTime(eDate);
-        eCalendar.get(Calendar.WEEK_OF_YEAR);
 
-        boolean bool =true;
+        // 首次需要进入
+        boolean bool = true;
 
         while(sCalendar.getTime().getTime()<eCalendar.getTime().getTime()){
+            // 周一  周日
             if(bool||sCalendar.get(Calendar.DAY_OF_WEEK)==2||sCalendar.get(Calendar.DAY_OF_WEEK)==1){
                 listWeekStr.add(dateFormat.format(sCalendar.getTime()));
                 bool = false;
@@ -242,11 +239,10 @@ public class DataUtils {
             sCalendar.add(Calendar.DAY_OF_MONTH, 1);
         }
         listWeekStr.add(dateFormat.format(eCalendar.getTime()));
-        if(listWeekStr.size()%2!=0){
-            listWeekStr.add(dateFormat.format(eCalendar.getTime()));
-        }
+
         System.out.println("list 时间串"+listWeekStr);
         for (int i = 0 ; i < listWeekStr.size() ; i++){
+            // 偶数 位进入
             if (i%2==0){
                 DateBean dateBean = new DateBean();
                 String startTime = listWeekStr.get(i);
@@ -259,17 +255,16 @@ public class DataUtils {
                 dateBean.setWeekStr(String.valueOf(stCalendar.get(Calendar.WEEK_OF_YEAR)));
                 dateBean.setStartTime(startTime);
                 dateBean.setEndTime(endTime);
-                listWeekOrMonth.add(dateBean);
+                listWeek.add(dateBean);
             }
         }
-        System.out.println(listWeekOrMonth);
-        return null;
+        return listWeek;
     }
 
     public static void main(String[] args) throws ParseException {
 //        Integer weekOfYear = getWeekOfYear2("2020-06-11");
 //        System.out.println(weekOfYear);
-        List<DateBean> week = doDateByType("2019-01-10", "2020-06-11");
+        List<DateBean> week = doDateByType("2019-12-23", "2020-06-11");
         System.out.println(week);
     }
 
