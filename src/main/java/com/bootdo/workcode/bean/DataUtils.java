@@ -212,7 +212,7 @@ public class DataUtils {
     }
 
 
-    public static List<DateBean> doDateByType( String startDate, String endDate) throws ParseException {
+    public static List<DateBean> doDateByWeek( String startDate, String endDate) throws ParseException {
         List<DateBean> listWeek = new ArrayList<DateBean>();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         //开始时间
@@ -278,7 +278,7 @@ public class DataUtils {
     public static void main(String[] args) throws ParseException {
 //        Integer weekOfYear = getWeekOfYear2("2020-06-11");
 //        System.out.println(weekOfYear);
-        List<DateBean> week = doDateByType("2010-01-01", "2010-01-04");
+        List<DateBean> week = doDateByWeek("2020-06-14", "2020-06-22");
     }
 
 
