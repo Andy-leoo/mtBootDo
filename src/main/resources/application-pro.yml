@@ -50,3 +50,21 @@ spring:
           max-active: 100
           # 连接池最大阻塞等待时间（使用负值表示没有限制）
           max-wait: -1
+  # Mail配置
+  mail:
+    host: smtp.163.com
+    # 这个是 你的邮箱的 第三方授权登入密码。并不是你自己邮箱的登入密码
+    username: 17600113235@163.com
+    password: jxjy1026
+    default-encoding: UTF-8
+
+
+# ElasticSearch配置
+elasticsearch:
+  ip: 47.104.234.172
+  # 9200端口是用来让HTTP REST API来访问ElasticSearch，而9300端口是传输层监听的默认端口
+  port: 9300
+  pool: 5
+  #注意cluster.name需要与config/elasticsearch.yml中的cluster.name一致
+  cluster:
+    name: andy
