@@ -3,6 +3,7 @@ package com.bootdo.common.utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -31,6 +32,21 @@ public class  DateUtils{
             return df.format(date);
         }
         return null;
+    }
+
+    public static String format(String oldDate) {
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        Date date = null;
+        try {
+            date = formatter.parse(oldDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        SimpleDateFormat sdf=new SimpleDateFormat(DATE_TIME_PATTERN);
+        String sDate=sdf.format(date);
+
+        return sDate;
     }
 
     /**
@@ -116,5 +132,9 @@ public class  DateUtils{
             e.printStackTrace();
         }
         return 0;
+    }
+
+    public static void main(String[] args) {
+        format("2019-06-18T15:25:01.832+08:00");
     }
 }

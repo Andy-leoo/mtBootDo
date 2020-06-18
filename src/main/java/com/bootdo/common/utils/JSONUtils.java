@@ -2,9 +2,16 @@ package com.bootdo.common.utils;
 
 import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.bootdo.common.domain.InfDO;
+import com.bootdo.workcode.bean.IntelligentInfDo;
+import com.google.common.collect.Lists;
+import org.apache.velocity.runtime.directive.Foreach;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class JSONUtils {
@@ -82,5 +89,26 @@ public class JSONUtils {
 			return null;
 		}
 		return JSON.parseObject(json, Map.class);
+	}
+
+
+	/**
+	 * @author Andy-J<br>
+	 * @version 1.0<br>
+	 * @createDate 2020/6/18 15:53 <br>
+	 * @desc  将 string json 转成 list 对象
+	 */
+	public static <T> List<T> parseArray(String jsonStr , Class<T> cls){
+		List<T> list = new ArrayList<>();
+
+		try {
+			list = JSON.parseArray(jsonStr,cls);
+
+		}catch (Exception e){
+			System.out.println("解析json，返回自定义对象失败");
+		}
+
+		return list;
+
 	}
 }

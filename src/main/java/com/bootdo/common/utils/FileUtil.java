@@ -1,7 +1,6 @@
 package com.bootdo.common.utils;
 
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.*;
 import java.util.UUID;
 
 public class FileUtil {
@@ -33,5 +32,32 @@ public class FileUtil {
 
 	public static String renameToUUID(String fileName) {
 		return UUID.randomUUID() + "." + fileName.substring(fileName.lastIndexOf(".") + 1);
+	}
+
+	public static String readJsonFile(String path){
+		File file = new File(path);
+		if (!file.exists() || file.isDirectory()) {
+			System.out.println("json 文件不存在");
+		}
+		StringBuffer strJson = new StringBuffer("[");
+
+		BufferedReader bf = null;
+
+		try {
+			bf = new BufferedReader(new FileReader(file));
+			String tempStr = null;
+			int line = 1;
+			//一行一行的读取
+			while ((tempStr = bf.readLine()) != null){
+				strJson.append(tempStr).append(",");
+				line++;
+			}
+			strJson.append("]");
+		} catch (FileNotFoundException e) {
+			System.out.println("读取文件出错");
+		} catch (IOException e) {
+			System.out.println("读取文件出错");
+		}
+		return strJson.toString();
 	}
 }

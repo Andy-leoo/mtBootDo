@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.workcode.dao.IntelligentInfDao">
+
+	<insert id="batchSave">
+		INSERT INTO intelligent_inf(
+			inf_id,
+			content,
+			publish_at,
+			title,
+			summary,
+			author,
+			thumbnail_type,
+			ccb_content
+		)
+		values
+		<foreach item="item" index="index" collection="list"
+				 separator=",">
+			(#{item.infId},
+			#{item.content},
+			#{item.publishAt},
+			#{item.title},
+			#{item.summary},
+			#{item.author},
+			#{item.thumbnailType},
+			#{item.ccbContent})
+		</foreach>
+	</insert>
+
+</mapper>
