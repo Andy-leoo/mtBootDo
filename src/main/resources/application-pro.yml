@@ -9,7 +9,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/bootdo?useUnicode=true&characterEncoding=utf8
+    url: jdbc:mysql://47.104.234.172:3306/bootdo?useUnicode=true&characterEncoding=utf8
     username: root
     password: root
     initialSize: 1
@@ -25,7 +25,7 @@ spring:
     testWhileIdle: true
     testOnBorrow: false
     testOnReturn: false
-    # 打开PSCache，并且指定每个连接上PSCache的大小
+    # 打开PSCache，并且指定每个连接上PSCache的大小p
     poolPreparedStatements: true
     maxPoolPreparedStatementPerConnectionSize: 20
     # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
@@ -63,8 +63,9 @@ spring:
 elasticsearch:
   ip: 47.104.234.172
   # 9200端口是用来让HTTP REST API来访问ElasticSearch，而9300端口是传输层监听的默认端口
-  port: 9300
+  port: 9200
   pool: 5
   #注意cluster.name需要与config/elasticsearch.yml中的cluster.name一致
   cluster:
     name: andy
+  timeout: 5000

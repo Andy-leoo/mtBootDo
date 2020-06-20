@@ -1,24 +1,31 @@
 package com.bootdo.Es.controller;
 
+import com.bootdo.Es.config.EsConfig;
+import org.apache.lucene.search.TotalHits;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.action.update.UpdateResponse;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
-import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.query.RangeQueryBuilder;
+import org.elasticsearch.index.query.*;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -26,6 +33,107 @@ import java.util.concurrent.ExecutionException;
 @RestController
 @RequestMapping("/es")
 public class EsController {
+
+    @Autowired
+    private RestHighLevelClient restHighLevelClient;
+
+
+    public String boolQuery() {
+        // 搜索请求对象
+        SearchRequest inf = new SearchRequest("inf");
+        // 搜索源构建对象
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+
+        /**
+         * GET movies/_search
+         * {
+         *   "query": {
+         *     "bool": {
+         *       "must": [
+         *         {
+         *           "match_phrase": {
+         *             "genre": "Horror"
+         *           }
+         *         },
+         *         {
+         *           "term": {
+         *             "title": {
+         *               "value": "wolf"
+         *             }
+         *           }
+         *         }
+         *       ]
+         *     }
+         *   }
+         * }
+         */
+        //定义一个MutiMatchQueryBuilder
+        MatchPhraseQueryBuilder matchPhraseQueryBuilder = QueryBuilders.matchPhraseQuery("genre", "Horror");
+        //定义一个termQuery
+        TermQueryBuilder termQueryBuilder = QueryBuilders.termQuery("title", "wolf");
+
+        //定义一个boolQuery
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+        boolQueryBuilder.must(matchPhraseQueryBuilder);
+        boolQueryBuilder.must(termQueryBuilder);
+
+        searchSourceBuilder.query(boolQueryBuilder);
+
+        //设置源字段过滤，第一个参数结果集包括哪些字段，第二字段结果集不包括哪些字段
+        searchSourceBuilder.fetchSource(new String[]{"title", "genre", "year"}, new String[]{});
+
+        //向搜索请求对象设置搜索源
+        inf.source(searchSourceBuilder);
+
+        //执行搜索，向ES发起http请求
+        SearchResponse response = null;
+        try {
+            response = restHighLevelClient.search(inf, RequestOptions.DEFAULT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                restHighLevelClient.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // 搜索结果
+        SearchHits hits = response.getHits();
+        // 匹配到的总计录
+        TotalHits totalHits = hits.getTotalHits();
+        // 得到文档
+        SearchHit[] searchHits = hits.getHits();
+
+        System.out.println("总数：" + totalHits.value);
+
+        for (SearchHit searchHit : searchHits) {
+            //文档id
+            String id = searchHit.getId();
+            //源文档内容
+            Map<String, Object> sourceAsMap = searchHit.getSourceAsMap();
+
+            String title = (String) sourceAsMap.get("title");
+            ArrayList<String> genre = (ArrayList<String>) sourceAsMap.get("genre");
+            String genres = String.join("|", genre);
+            Integer year = (Integer) sourceAsMap.get("year");
+
+            System.out.println("title: " + title + "; year: " + year + "; genre: " + genres);
+
+
+        }
+        return "1";
+    }
+
+
+
+
+    /**
+     * @author Andy-J<br>
+     * @version 1.0<br>
+     * @createDate 2020/6/20 20:25 <br>
+     * @desc es 5.5.0
 
     @Autowired
     private TransportClient client;
@@ -135,4 +243,8 @@ public class EsController {
         return searchResponse.toString();
 
     }
+     */
+
+
+
 }

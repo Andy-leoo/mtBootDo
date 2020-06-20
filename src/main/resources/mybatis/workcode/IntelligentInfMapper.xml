@@ -12,7 +12,8 @@
 			summary,
 			author,
 			thumbnail_type,
-			ccb_content
+			ccb_content,
+			update_time
 		)
 		values
 		<foreach item="item" index="index" collection="list"
@@ -24,7 +25,8 @@
 			#{item.summary},
 			#{item.author},
 			#{item.thumbnailType},
-			#{item.ccbContent})
+			#{item.ccbContent},
+			now())
 		</foreach>
 	</insert>
 

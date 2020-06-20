@@ -251,7 +251,7 @@
             <version>1.9.2</version>
         </dependency>
 
-        <!--      引用es client  -->
+        <!--      引用es 5.5.0 win版本client
         <dependency>
             <groupId>org.elasticsearch.client</groupId>
             <artifactId>transport</artifactId>
@@ -268,8 +268,8 @@
             <artifactId>elasticsearch</artifactId>
             <version>5.5.0</version>
         </dependency>
-
-        <!--        es 依赖log4j-->
+        -->
+        <!--        es 5.5.0 win版本 依赖log4j
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
@@ -279,14 +279,34 @@
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
             <version>2.7</version>
-        </dependency>
-        <!--需要引入transport-netty3-client，否则会启动报错-->
+        </dependency>-->
+        <!--需要引入transport-netty3-client，否则会启动报错
         <dependency>
             <groupId>org.elasticsearch.plugin</groupId>
             <artifactId>transport-netty4-client</artifactId>
             <version>5.5.0</version>
+        </dependency>-->
+
+        <!--es 7.1.0 -->
+        <dependency>
+            <groupId>org.elasticsearch</groupId>
+            <artifactId>elasticsearch</artifactId>
+            <version>7.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>elasticsearch-rest-high-level-client</artifactId>
+            <version>7.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>elasticsearch-rest-client</artifactId>
+            <version>7.1.0</version>
         </dependency>
     </dependencies>
+
+
+
 
     <!--war包部署需要-->
         <!--<dependency>-->
