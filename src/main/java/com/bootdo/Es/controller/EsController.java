@@ -37,50 +37,21 @@ public class EsController {
     @Autowired
     private RestHighLevelClient restHighLevelClient;
 
-
+    @RequestMapping("/query/id")
     public String boolQuery() {
         // 搜索请求对象
         SearchRequest inf = new SearchRequest("inf");
         // 搜索源构建对象
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
-        /**
-         * GET movies/_search
-         * {
-         *   "query": {
-         *     "bool": {
-         *       "must": [
-         *         {
-         *           "match_phrase": {
-         *             "genre": "Horror"
-         *           }
-         *         },
-         *         {
-         *           "term": {
-         *             "title": {
-         *               "value": "wolf"
-         *             }
-         *           }
-         *         }
-         *       ]
-         *     }
-         *   }
-         * }
-         */
-        //定义一个MutiMatchQueryBuilder
-        MatchPhraseQueryBuilder matchPhraseQueryBuilder = QueryBuilders.matchPhraseQuery("genre", "Horror");
-        //定义一个termQuery
-        TermQueryBuilder termQueryBuilder = QueryBuilders.termQuery("title", "wolf");
+       //定义一个termQuery
+        TermQueryBuilder termQueryBuilder = QueryBuilders.termQuery("inf_id", "5cc450a5de4df60001741e86");
 
         //定义一个boolQuery
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
-        boolQueryBuilder.must(matchPhraseQueryBuilder);
         boolQueryBuilder.must(termQueryBuilder);
 
         searchSourceBuilder.query(boolQueryBuilder);
-
-        //设置源字段过滤，第一个参数结果集包括哪些字段，第二字段结果集不包括哪些字段
-        searchSourceBuilder.fetchSource(new String[]{"title", "genre", "year"}, new String[]{});
 
         //向搜索请求对象设置搜索源
         inf.source(searchSourceBuilder);
@@ -114,12 +85,10 @@ public class EsController {
             //源文档内容
             Map<String, Object> sourceAsMap = searchHit.getSourceAsMap();
 
+            String inf_ID = (String) sourceAsMap.get("inf_id");
             String title = (String) sourceAsMap.get("title");
-            ArrayList<String> genre = (ArrayList<String>) sourceAsMap.get("genre");
-            String genres = String.join("|", genre);
-            Integer year = (Integer) sourceAsMap.get("year");
-
-            System.out.println("title: " + title + "; year: " + year + "; genre: " + genres);
+            String content = (String) sourceAsMap.get("content");
+            System.out.println("inf_ID: " + inf_ID + "; title: " + title + "; content: " + content);
 
 
         }
