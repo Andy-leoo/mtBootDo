@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.bj.train.dao.DeptModuleDao">
+    <select id="list" resultType="com.bj.train.pojo.DeptModule">
+        SELECT
+        dm.*
+        FROM
+        dept_module dm
+        LEFT JOIN module m ON dm.module_id = m.id
+        ORDER BY
+        dm.create_time DESC
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+    <select id="count" resultType="int">
+        SELECT
+        count(*)
+        FROM
+        dept_module dm
+        LEFT JOIN module m ON dm.module_id = m.id
+    </select>
+
+
+    <update id="update" parameterType="com.bj.train.pojo.DeptModule">
+        update dept_module
+        <set>
+            <if test="dept_id != null">`dept_id` = #{dept_id}, </if>
+            <if test="moudle_id != null">`moudle_id` = #{moudle_id}, </if>
+            <if test="operato_time != null">`operate_time` = #{operate_time}, </if>
+            <if test="operator != null">`operator` = #{operator}, </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <insert id="save" parameterType="com.bj.train.pojo.DeptModule" useGeneratedKeys="true" keyProperty="id">
+		insert into dept_module
+		(
+			`dept_id`,
+			`moudle_id`,
+			`create_time`,
+			`creater`,
+			`operate_time`,
+			`operator`
+		)
+		values
+		(
+			#{deptId},
+			#{moduleId},
+			#{createTime},
+			#{creater},
+			#{operateTime},
+			#{operator}
+		)
+	</insert>
+
+    <delete id="remove">
+		delete from dept_module where id= #{id}
+	</delete>
+</mapper>

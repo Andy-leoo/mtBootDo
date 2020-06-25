@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+							<div class="form-group">
+								<label >文件标题</label>
+								<input type="title" class="form-control" readonly  th:value="${trainFiles.title}">
+							</div>
+							<div class="form-group">
+								<label >文件详情</label>
+								<input type="text" class="form-control"readonly  th:value="${trainFiles.detail}">
+							</div>
+							<div class="form-group">
+								<label>文件</label>
+								<img th:src="@{${trainFiles.mainImage}}" class="msgtype">
+								<a href="#" th:href="@{${trainFiles.mainImage}}">点击下载</a>
+							</div>
+							<div >
+								<label >人员阅读情况</label>
+								<ul>
+									<li th:each="user : ${filesUsers}" th:unless="${filesUsers == null}">
+										<span   th:text="${user.name}" ></span>
+										<span th:text="${user.status gt 0 ? '已查阅' : '未查阅'} "></span>
+
+									</li>
+								</ul>
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" >
+        $(function () {
+            var msgtype = $('.msgtype').attr('src');
+            msgtype = msgtype.split('.')[1];
+            console.log(msgtype);
+            if(msgtype == 'doc' || msgtype == 'docx'){
+                $('.msgtype').attr('src','/static/img/train/word.png');
+            }else if(msgtype == 'xls' || msgtype == 'xlsx'){
+                $('.msgtype').attr('src','/static/img/train/excel.png');
+            }else{
+                $('.msgtype').attr('src','/static/img/train/image.png');
+            }
+
+
+        })
+		$('#submit').click(function(){
+            //jquery获取复选框值
+            var chk_value =[];//定义一个数组
+            $('input[name="checkUser"]:checked').each(function(){//遍历每一个名字为interest的复选框，其中选中的执行函数
+                chk_value.push($(this).val());//将选中的值添加到数组chk_value中
+            });
+            alert(chk_value);
+            $("#userIds").val(chk_value);
+        });
+
+
+
+	</script>
+</body>
+</html>

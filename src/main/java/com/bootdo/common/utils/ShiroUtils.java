@@ -1,16 +1,12 @@
 package com.bootdo.common.utils;
 
-import com.bootdo.system.domain.UserToken;
-import org.apache.commons.beanutils.BeanUtils;
+import com.bootdo.system.domain.UserDO;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.subject.Subject;
-
-import com.bootdo.system.domain.UserDO;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.lang.reflect.InvocationTargetException;
 import java.security.Principal;
 import java.util.Collection;
 import java.util.List;
@@ -19,18 +15,18 @@ public class ShiroUtils {
     @Autowired
     private static SessionDAO sessionDAO;
 
-    public static Subject getSubjct() {
+    public static Subject getSubootdoct() {
         return SecurityUtils.getSubject();
     }
     public static UserDO getUser() {
-        Object object = getSubjct().getPrincipal();
-        return (UserDO)object;
+        Object Object = getSubootdoct().getPrincipal();
+        return (UserDO)Object;
     }
     public static Long getUserId() {
         return getUser().getUserId();
     }
     public static void logout() {
-        getSubjct().logout();
+        getSubootdoct().logout();
     }
 
     public static List<Principal> getPrinciples() {

@@ -25,7 +25,7 @@ public class BlogController {
 
 	@GetMapping()
 	String blog() {
-		return "blog/index/main";
+		return "blog/index/main2";
 	}
 
 	@ResponseBody

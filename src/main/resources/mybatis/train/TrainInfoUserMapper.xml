@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.bj.train.dao.TrainInfoUserDao">
+    <select id="selectByInfoId" resultType="com.bj.train.pojo.TrainInfoUser">
+        select fu.*,u.name name
+        from train_info_user fu
+        left join sys_user u on fu.user_id = u.user_id
+        where fu.info_id = #{infoId}
+    </select>
+    <select id="selectByUserId" resultType="com.bj.train.pojo.TrainInfoUser">
+        select * from train_info_user where user_id = #{userId} order by create_time desc limit 0,4
+    </select>
+    <insert id="insert" parameterType="com.bj.train.pojo.TrainInfoUser" useGeneratedKeys="true" keyProperty="id">
+        insert into train_info_user (info_id,user_id,status,create_time,creater,operate_time,operater)
+        values (#{infoId},#{userId},#{status},#{createTime},#{creater},#{operateTime},#{operater})
+     </insert>
+    <update id="updateStatus" parameterType="com.bj.train.pojo.TrainInfoUser">
+        update train_info_user set
+        status=#{status},
+        operate_time=#{operateTime},
+        operater=#{operater}
+        where info_id=#{infoId} and user_id=#{userId}
+    </update>
+
+    <delete id="batchRemove" >
+        delete from train_info_user where info_id =  #{infoId}
+    </delete>
+
+    <select id="queryMoreInfoByUserId" resultType="com.bj.train.pojo.TrainInfoUser">
+        SELECT
+        iu.*,
+        i.title title
+        FROM
+        train_info_user iu
+        LEFT JOIN train_info i ON iu.info_id = i.id
+        WHERE
+        iu.user_id = #{userId}
+        ORDER BY iu.create_time DESC
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+    <select id="countQueryMoreInfoByUserId" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            train_info_user iu
+            LEFT JOIN train_info i ON iu.news_id = i.id
+        WHERE
+            nu.user_id = #{userId}
+    </select>
+
+
+</mapper>

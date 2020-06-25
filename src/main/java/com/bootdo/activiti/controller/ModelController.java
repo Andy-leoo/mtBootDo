@@ -46,7 +46,7 @@ public class ModelController extends BaseController{
     private RepositoryService repositoryService;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    private ObjectMapper ObjectMapper;
 
     @GetMapping("/model")
     ModelAndView model() {
@@ -73,7 +73,7 @@ public class ModelController extends BaseController{
         int revision = 1;
         String key = "process";
 
-        ObjectNode modelNode = objectMapper.createObjectNode();
+        ObjectNode modelNode = ObjectMapper.createObjectNode();
         modelNode.put(ModelDataJsonConstants.MODEL_NAME, name);
         modelNode.put(ModelDataJsonConstants.MODEL_DESCRIPTION, description);
         modelNode.put(ModelDataJsonConstants.MODEL_REVISION, revision);
@@ -86,10 +86,10 @@ public class ModelController extends BaseController{
         String id = model.getId();
 
         //完善ModelEditorSource
-        ObjectNode editorNode = objectMapper.createObjectNode();
+        ObjectNode editorNode = ObjectMapper.createObjectNode();
         editorNode.put("id", "canvas");
         editorNode.put("resourceId", "canvas");
-        ObjectNode stencilSetNode = objectMapper.createObjectNode();
+        ObjectNode stencilSetNode = ObjectMapper.createObjectNode();
         stencilSetNode.put("namespace",
                 "http://b3mn.org/stencilset/bpmn2.0#");
         editorNode.put("stencilset", stencilSetNode);
@@ -108,13 +108,13 @@ public class ModelController extends BaseController{
         if (model != null) {
             try {
                 if (StringUtils.isNotEmpty(model.getMetaInfo())) {
-                    modelNode = (ObjectNode) objectMapper.readTree(model.getMetaInfo());
+                    modelNode = (ObjectNode) ObjectMapper.readTree(model.getMetaInfo());
                 } else {
-                    modelNode = objectMapper.createObjectNode();
+                    modelNode = ObjectMapper.createObjectNode();
                     modelNode.put(MODEL_NAME, model.getName());
                 }
                 modelNode.put(MODEL_ID, model.getId());
-                ObjectNode editorJsonNode = (ObjectNode) objectMapper.readTree(
+                ObjectNode editorJsonNode = (ObjectNode) ObjectMapper.readTree(
                         new String(repositoryService.getModelEditorSource(model.getId()), "utf-8"));
                 modelNode.put("model", editorJsonNode);
 
@@ -207,7 +207,7 @@ public class ModelController extends BaseController{
 
             Model model = repositoryService.getModel(modelId);
 
-            ObjectNode modelJson = (ObjectNode) objectMapper.readTree(model.getMetaInfo());
+            ObjectNode modelJson = (ObjectNode) ObjectMapper.readTree(model.getMetaInfo());
 
             modelJson.put(MODEL_NAME, name);
             modelJson.put(MODEL_DESCRIPTION, description);

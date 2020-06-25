@@ -306,14 +306,14 @@ public class TimeUtils {
         return result;
     }
 
-    public boolean equals(Object obj) {
-        if (this == obj)
+    public boolean equals(Object obootdo) {
+        if (this == obootdo)
             return true;
-        if (obj == null)
+        if (obootdo == null)
             return false;
-        if (getClass() != obj.getClass())
+        if (getClass() != obootdo.getClass())
             return false;
-        final TimeUtils other = (TimeUtils) obj;
+        final TimeUtils other = (TimeUtils) obootdo;
         if (!Arrays.equals(fields, other.fields)) {
             return false;
         }

@@ -33,12 +33,12 @@ public class SerializeUtils {
         try {
             ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
             try {
-                ObjectInputStream objectInputStream = new ObjectInputStream(byteStream);
+                ObjectInputStream ObjectInputStream = new ObjectInputStream(byteStream);
                 try {
-                    result = objectInputStream.readObject();
+                    result = ObjectInputStream.readObject();
                 }
                 catch (ClassNotFoundException ex) {
-                    throw new Exception("Failed to deserialize object type", ex);
+                    throw new Exception("Failed to deserialize Object type", ex);
                 }
             }
             catch (Throwable ex) {
@@ -56,26 +56,26 @@ public class SerializeUtils {
 
     /**
      * 序列化
-     * @param object
+     * @param Object
      * @return
      */
-    public static byte[] serialize(Object object) {
+    public static byte[] serialize(Object Object) {
 
         byte[] result = null;
 
-        if (object == null) {
+        if (Object == null) {
             return new byte[0];
         }
         try {
             ByteArrayOutputStream byteStream = new ByteArrayOutputStream(128);
             try  {
-                if (!(object instanceof Serializable)) {
+                if (!(Object instanceof Serializable)) {
                     throw new IllegalArgumentException(SerializeUtils.class.getSimpleName() + " requires a Serializable payload " +
-                            "but received an object of type [" + object.getClass().getName() + "]");
+                            "but received an Object of type [" + Object.getClass().getName() + "]");
                 }
-                ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteStream);
-                objectOutputStream.writeObject(object);
-                objectOutputStream.flush();
+                ObjectOutputStream ObjectOutputStream = new ObjectOutputStream(byteStream);
+                ObjectOutputStream.writeObject(Object);
+                ObjectOutputStream.flush();
                 result =  byteStream.toByteArray();
             }
             catch (Throwable ex) {

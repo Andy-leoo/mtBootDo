@@ -24,15 +24,15 @@ public class MailServiceImpl implements MailService {
     /**
      *  文本邮件
      * @param to    发向方
-     * @param subject   标题
+     * @param subootdoect   标题
      * @param content  内容
      */
     @Override
-    public void sendSimpleMail(String to, String subject, String content) {
+    public void sendSimpleMail(String to, String subootdoect, String content) {
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
-        message.setSubject(subject);
+        message.setSubject(subootdoect);
         message.setText(content);
         message.setFrom(form);
 
@@ -42,17 +42,17 @@ public class MailServiceImpl implements MailService {
     /**
      * HTML
      * @param to
-     * @param subject
+     * @param subootdoect
      * @param content
      */
     @Override
-    public void sendHtmlMail(String to, String subject, String content) throws MessagingException {
+    public void sendHtmlMail(String to, String subootdoect, String content) throws MessagingException {
 
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage,true);
         helper.setTo(to);
-        helper.setSubject(subject);
+        helper.setSubject(subootdoect);
         helper.setText(content,true);
         helper.setFrom(form);
 
@@ -62,18 +62,18 @@ public class MailServiceImpl implements MailService {
     /**
      * 带有附件的邮件
      * @param to
-     * @param subject
+     * @param subootdoect
      * @param content
      * @param filePath
      * @throws MessagingException
      */
     @Override
-    public void sendAttachmentsMail(String to, String subject, String content, String filePath) throws MessagingException {
+    public void sendAttachmentsMail(String to, String subootdoect, String content, String filePath) throws MessagingException {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage,true);
         helper.setTo(to);
-        helper.setSubject(subject);
+        helper.setSubject(subootdoect);
         helper.setText(content,true);
         helper.setFrom(form);
 
@@ -87,17 +87,17 @@ public class MailServiceImpl implements MailService {
     /**
      * 图片
      * @param to
-     * @param subject
+     * @param subootdoect
      * @param content
      * @param resPath
      */
     @Override
-    public void sendInLineResMail(String to, String subject, String content, String resPath ,String rscId) throws MessagingException {
+    public void sendInLineResMail(String to, String subootdoect, String content, String resPath ,String rscId) throws MessagingException {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage,true);
         helper.setTo(to);
-        helper.setSubject(subject);
+        helper.setSubject(subootdoect);
         helper.setText(content,true);
         helper.setFrom(form);
 

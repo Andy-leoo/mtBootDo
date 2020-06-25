@@ -18,16 +18,16 @@ public class JSONUtils {
 	/**
 	 * Bean对象转JSON
 	 * 
-	 * @param object
+	 * @param Object
 	 * @param dataFormatString
 	 * @return
 	 */
-	public static String beanToJson(Object object, String dataFormatString) {
-		if (object != null) {
+	public static String beanToJson(Object Object, String dataFormatString) {
+		if (Object != null) {
 			if (StringUtils.isEmpty(dataFormatString)) {
-				return JSONObject.toJSONString(object);
+				return JSONObject.toJSONString(Object);
 			}
-			return JSON.toJSONStringWithDateFormat(object, dataFormatString);
+			return JSON.toJSONStringWithDateFormat(Object, dataFormatString);
 		} else {
 			return null;
 		}
@@ -36,12 +36,12 @@ public class JSONUtils {
 	/**
 	 * Bean对象转JSON
 	 * 
-	 * @param object
+	 * @param Object
 	 * @return
 	 */
-	public static String beanToJson(Object object) {
-		if (object != null) {
-			return JSON.toJSONString(object);
+	public static String beanToJson(Object Object) {
+		if (Object != null) {
+			return JSON.toJSONString(Object);
 		} else {
 			return null;
 		}

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.bj.train.dao.TrainNewsDao">
+    <select id="selectAll" resultType="com.bj.train.pojo.TrainNews">
+        select * from train_news order by create_time desc
+    </select>
+
+    <insert id="insert" parameterType="com.bj.train.pojo.TrainNews" useGeneratedKeys="true" keyProperty="id">
+        insert into train_news (id, title,detail,main_image,create_time,creater,operate_time,operator)
+        values (#{id}, #{title},#{detail},#{mainImage}, #{createTime},#{creater},#{operateTime},#{operate})
+     </insert>
+
+    <delete id="remove" >
+        delete from train_news where id =#{id}
+    </delete>
+
+    <select id="selectByid" resultType="com.bj.train.pojo.TrainNews">
+        select * from train_news where id=#{id}
+    </select>
+</mapper>

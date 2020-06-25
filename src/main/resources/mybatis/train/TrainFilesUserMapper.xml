@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.bj.train.dao.TrainFilesUserDao">
+    <select id="selectByFilesId" resultType="com.bj.train.pojo.TrainFilesUser">
+        select fu.*,u.name name
+        from train_files_user fu
+        left join sys_user u on fu.user_id = u.user_id
+        where fu.files_id = #{filesId}
+    </select>
+    <select id="selectByUserId" resultType="com.bj.train.pojo.TrainFilesUser">
+        select * from train_files_user where user_id = #{userId} order by create_time desc limit 0,4
+    </select>
+
+    <insert id="insert" parameterType="com.bj.train.pojo.TrainFilesUser" useGeneratedKeys="true" keyProperty="id">
+        insert into train_files_user (files_id,user_id,status,create_time,creater,operate_time,operater)
+        values (#{filesId},#{userId},#{status},#{createTime},#{creater},#{operateTime},#{operater})
+     </insert>
+    <update id="updateStatus" parameterType="com.bj.train.pojo.TrainFilesUser">
+        update train_files_user set
+        status=#{status},
+        operate_time=#{operateTime},
+        operater=#{operater}
+        where files_id=#{filesId} and user_id=#{userId}
+    </update>
+
+    <delete id="batchRemove" >
+        delete from train_files_user where files_id =  #{filesId}
+    </delete>
+
+    <select id="checkFileByFileIdAndUserId" resultType="int">
+        SELECT
+            count( * )
+        FROM
+            train_files_user
+        WHERE
+            files_id=#{id} and user_id = #{userId}
+    </select>
+
+    <select id="queryMoreFileByUserId" resultType="com.bj.train.pojo.TrainFilesUser">
+        SELECT
+            fu.*,
+            f.main_image url,
+            f.title title,
+            f.detail detail
+        FROM
+            train_files_user fu
+            LEFT JOIN train_files f ON fu.files_id = f.id
+        WHERE
+            fu.user_id = #{userId}
+        ORDER BY fu.create_time DESC
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+    <select id="countQueryMoreFileByUserId" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            train_files_user fu
+            LEFT JOIN train_files f ON fu.files_id = f.id
+        WHERE
+            fu.user_id = #{userId}
+    </select>
+
+</mapper>

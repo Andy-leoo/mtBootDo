@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.bj.train.dao.TrainNewsUserDao">
+    <select id="selectByNewsId" resultType="com.bj.train.pojo.TrainNewsUser">
+        select nu.*,u.name name
+        from train_news_user nu
+        left join sys_user u on nu.user_id = u.user_id
+        where nu.news_id = #{newsId}
+    </select>
+    <select id="selectByUserId" resultType="com.bj.train.pojo.TrainNewsUser">
+        select * from train_news_user where user_id = #{userId} order by create_time desc limit 0,4
+    </select>
+    <insert id="insert" parameterType="com.bj.train.pojo.TrainNewsUser" useGeneratedKeys="true" keyProperty="id">
+        insert into train_news_user (news_id,user_id,status,create_time,creater,operate_time,operater)
+        values (#{newsId},#{userId},#{status},#{createTime},#{creater},#{operateTime},#{operater})
+     </insert>
+    <update id="updateStatus" parameterType="com.bj.train.pojo.TrainNewsUser">
+        update train_news_user set
+        status=#{status},
+        operate_time=#{operateTime},
+        operater=#{operater}
+        where news_id=#{newsId} and user_id=#{userId}
+    </update>
+
+    <delete id="batchRemove" >
+        delete from train_news_user where news_id =  #{newsId}
+    </delete>
+
+
+    <select id="queryMoreNewsByUserId" resultType="com.bj.train.pojo.TrainNewsUser">
+        SELECT
+        nu.*,
+        n.title title
+        FROM
+        train_news_user nu
+        LEFT JOIN train_news n ON nu.news_id = n.id
+        WHERE
+        nu.user_id = #{userId}
+        ORDER BY nu.create_time DESC
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+    <select id="countQueryMoreNewsByUserId" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            train_news_user nu
+            LEFT JOIN train_news n ON nu.news_id = n.id
+        WHERE
+            nu.user_id = #{userId}
+    </select>
+</mapper>
