@@ -173,3 +173,10 @@
   springboot2.X 整合 ElasticSearch5.X 
      
         简书地址放上： https://www.jianshu.com/p/ed03b42ee3d1
+
+  整合ElasticSearch7.1.0 去除5.5版本，
+    
+        https://blog.csdn.net/weixin_37301906/article/details/106782725
+        LINUX 安装 ELK 
+  
+  学习jdk8 新特性 - lambda表达式
