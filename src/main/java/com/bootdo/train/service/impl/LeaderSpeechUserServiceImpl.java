@@ -1,8 +1,8 @@
 package com.bootdo.train.service.impl;
 
+import com.bootdo.system.domain.UserDO;
 import com.bootdo.train.dao.LeaderSpeechUserDao;
 import com.bootdo.train.pojo.LeaderSpeechUser;
-import com.bootdo.train.pojo.UserDO;
 import com.bootdo.train.service.LeaderSpeechUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

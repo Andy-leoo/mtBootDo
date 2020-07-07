@@ -1,13 +1,9 @@
 package com.bootdo.train.controller.backend;
 
 import com.bootdo.common.config.BootdoConfig;
-import com.bootdo.train.commons.R;
-import com.bootdo.train.pojo.FileDO;
-import com.bootdo.train.service.FileService;
-import com.bootdo.train.utils.FileType;
-import com.bootdo.train.utils.FileUtil;
-import com.bootdo.train.utils.PageUtils;
-import com.bootdo.train.utils.Query;
+import com.bootdo.common.domain.FileDO;
+import com.bootdo.common.service.FileService;
+import com.bootdo.common.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

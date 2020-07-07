@@ -1,11 +1,11 @@
 package com.bootdo.system.dao;
 
 import com.bootdo.system.domain.UserDO;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 
@@ -32,4 +32,13 @@ public interface UserDao {
 	
 	Long[] listAllDept();
 
+	int checkUserName(String username);
+
+	UserDO selectLoginUser(@Param("username") String username, @Param("password") String password);
+
+	void barchInsert(List<UserDO> userList);
+
+	String takeOldPwd(Long userId);
+
+	List<UserDO> selectByDeptIds(List<String> deptIds);
 }

@@ -3,20 +3,20 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.bj.train.dao.TrainNewsUserDao">
-    <select id="selectByNewsId" resultType="com.bj.train.pojo.TrainNewsUser">
+    <select id="selectByNewsId" resultType="com.bootdo.train.pojo.TrainNewsUser">
         select nu.*,u.name name
         from train_news_user nu
         left join sys_user u on nu.user_id = u.user_id
         where nu.news_id = #{newsId}
     </select>
-    <select id="selectByUserId" resultType="com.bj.train.pojo.TrainNewsUser">
+    <select id="selectByUserId" resultType="com.bootdo.train.pojo.TrainNewsUser">
         select * from train_news_user where user_id = #{userId} order by create_time desc limit 0,4
     </select>
-    <insert id="insert" parameterType="com.bj.train.pojo.TrainNewsUser" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insert" parameterType="com.bootdo.train.pojo.TrainNewsUser" useGeneratedKeys="true" keyProperty="id">
         insert into train_news_user (news_id,user_id,status,create_time,creater,operate_time,operater)
         values (#{newsId},#{userId},#{status},#{createTime},#{creater},#{operateTime},#{operater})
      </insert>
-    <update id="updateStatus" parameterType="com.bj.train.pojo.TrainNewsUser">
+    <update id="updateStatus" parameterType="com.bootdo.train.pojo.TrainNewsUser">
         update train_news_user set
         status=#{status},
         operate_time=#{operateTime},
@@ -29,7 +29,7 @@
     </delete>
 
 
-    <select id="queryMoreNewsByUserId" resultType="com.bj.train.pojo.TrainNewsUser">
+    <select id="queryMoreNewsByUserId" resultType="com.bootdo.train.pojo.TrainNewsUser">
         SELECT
         nu.*,
         n.title title

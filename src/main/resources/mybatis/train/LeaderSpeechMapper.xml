@@ -3,11 +3,11 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.bj.train.dao.LeaderSpeechDao">
-    <select id="selectAll" resultType="com.bj.train.pojo.LeaderSpeech">
+    <select id="selectAll" resultType="com.bootdo.train.pojo.LeaderSpeech">
         select * from leader_speech order by create_time desc
     </select>
 
-    <insert id="insert" parameterType="com.bj.train.pojo.LeaderSpeech" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insert" parameterType="com.bootdo.train.pojo.LeaderSpeech" useGeneratedKeys="true" keyProperty="id">
         insert into leader_speech (id, title,detail,main_image,create_time,creater,operate_time,operator)
         values (#{id}, #{title},#{detail},#{mainImage}, #{createTime},#{creater},#{operateTime},#{operate})
      </insert>

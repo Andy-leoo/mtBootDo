@@ -1,25 +1,10 @@
 package com.bootdo.system.service.impl;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.util.*;
-
 import com.bootdo.common.config.BootdoConfig;
 import com.bootdo.common.domain.FileDO;
+import com.bootdo.common.domain.Tree;
 import com.bootdo.common.service.FileService;
 import com.bootdo.common.utils.*;
-import com.bootdo.system.vo.UserVO;
-import org.apache.commons.lang.ArrayUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.bootdo.common.domain.Tree;
 import com.bootdo.system.dao.DeptDao;
 import com.bootdo.system.dao.UserDao;
 import com.bootdo.system.dao.UserRoleDao;
@@ -27,9 +12,24 @@ import com.bootdo.system.domain.DeptDO;
 import com.bootdo.system.domain.UserDO;
 import com.bootdo.system.domain.UserRoleDO;
 import com.bootdo.system.service.UserService;
+import com.bootdo.system.vo.UserVO;
+import com.bootdo.train.commons.Const;
+import com.bootdo.train.dao.DeptModuleDao;
+import com.bootdo.train.pojo.DeptModule;
+import com.bootdo.train.pojo.Module;
+import com.bootdo.train.service.ModuleService;
+import com.bootdo.train.utils.MD5Util;
+import org.apache.commons.lang.ArrayUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpSession;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.util.*;
 
 @Transactional
 @Service
@@ -44,7 +44,10 @@ public class UserServiceImpl implements UserService {
     private FileService sysFileService;
     @Autowired
     private BootdoConfig bootdoConfig;
-    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+    @Autowired
+    private ModuleService moduleService;
+    @Autowired
+    private DeptModuleDao deptModuleDao;
 
     @Override
 //    @Cacheable(value = "user",key = "#id")
@@ -69,6 +72,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public int save(UserDO user) {
+        user.setRole(checkRoleAdmin(user));
         int count = userMapper.save(user);
         Long userId = user.getUserId();
         List<Long> roles = user.getRoleIds();
@@ -88,6 +92,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int update(UserDO user) {
+        user.setRole(checkRoleAdmin(user));
         int r = userMapper.update(user);
         Long userId = user.getUserId();
         List<Long> roles = user.getRoleIds();
@@ -104,7 +109,15 @@ public class UserServiceImpl implements UserService {
         }
         return r;
     }
-
+    private int checkRoleAdmin(UserDO userDO){
+        String roleName = userRoleMapper.checkRoleAdmin(userDO.getUserId());
+        if (StringUtils.isNotBlank(roleName)){
+            if (roleName.contains(Const.CHECK_ROLE_ADMIN)) {
+                return Const.Role.ROLE_ADMIN;
+            }
+        }
+        return Const.Role.ROLE_CUSTOMER;
+    }
 //    @CacheEvict(value = "user")
     @Override
     public int remove(Long userId) {
@@ -135,6 +148,25 @@ public class UserServiceImpl implements UserService {
             }
         } else {
             throw new Exception("你修改的不是你登录的账号！");
+        }
+    }
+
+    @Override
+    public R resetPwd(UserVO userVO, UserDO userDO, String oldPwd){
+        if (Objects.equals(userVO.getUserDO().getUserId(), userDO.getUserId())) {
+            if (Objects.equals(MD5Util.MD5EncodeUtf8(userVO.getPwdOld()), oldPwd)) {
+                if (!Objects.equals(MD5Util.MD5EncodeUtf8(userVO.getPwdNew()), oldPwd)) {
+                    userDO.setPassword(MD5Util.MD5EncodeUtf8(userVO.getPwdNew()));
+                    userMapper.update(userDO);
+                    return R.ok("更新密码成功");
+                }else {
+                    return R.error("输入的新密码与旧密码相同！");
+                }
+            } else {
+                return R.error("输入的旧密码有误！");
+            }
+        } else {
+            return R.error("你修改的不是你登录的账号！");
         }
     }
 
@@ -240,6 +272,83 @@ public class UserServiceImpl implements UserService {
             }
         }
         return result;
+    }
+
+    @Override
+    public R loginUser(String username, String password, HttpSession session) {
+        if (StringUtils.isBlank(username)){
+            return R.error("用户名不能为空！");
+        }
+        if (StringUtils.isBlank(password)){
+            return R.error("密码不能为空！");
+        }
+        int resultCount = userMapper.checkUserName(username);
+        if (resultCount == 0 ){
+            return R.error("用户名不存在");
+        }
+        String md5Password = MD5Util.MD5EncodeUtf8(password);
+        UserDO user = userMapper.selectLoginUser(username,md5Password);
+        if (user == null){
+            return R.error("密码错误");
+        }
+        //滞空密码
+        user.setPassword(StringUtils.EMPTY);
+        //放入session
+        session.setAttribute(Const.CURRENT_USER ,user);
+        return R.ok();
+    }
+
+    @Transactional
+    @Override
+    public void batchInsert(List<UserDO> userList) {
+        userMapper.barchInsert(userList);
+    }
+
+    @Override
+    public String takeOldPwd(Long userId) {
+        return userMapper.takeOldPwd(userId);
+    }
+
+    /*
+        根据添加的 模块 id 进行查询人员
+     */
+    public List<UserDO> selectUserByMenuId(Long menuId){
+        /*
+            根据 菜单 获取 有哪些模块包含
+         */
+        List<Module> modulelist = moduleService.selectModulesByMenuId(menuId);
+        if (modulelist.size()==0){
+            return null;
+        }
+        List<String> moduleIds = new ArrayList<>();
+        /*
+            获取每个模块的 moduleID
+         */
+        for (Module module: modulelist) {
+            Long id = module.getId();
+            moduleIds.add(id.toString());
+        }
+        List<DeptModule> deptModules = deptModuleDao.selectByModuleIds(moduleIds);
+        if (deptModules.size()==0){
+            return null;
+        }
+        List<String> deptIds = new ArrayList<>();
+        /*
+            根据moduleId 获取 deptId
+         */
+        for (DeptModule deptModule: deptModules) {
+            Long deptId = deptModule.getDeptId();
+            deptIds.add(deptId.toString());
+        }
+        /*
+            userService 下  根据deptId获取所有user
+         */
+        List<UserDO> list = userMapper.selectByDeptIds(deptIds);
+        return list;
+    }
+
+    public static void main(String[] args) {
+//        selectUserByMenuId();
     }
 
 }

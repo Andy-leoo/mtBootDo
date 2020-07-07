@@ -1,10 +1,10 @@
 package com.bootdo.train.controller.backend;
 
-import com.bootdo.train.commons.R;
-import com.bootdo.train.pojo.LogDO;
-import com.bootdo.train.pojo.PageDO;
-import com.bootdo.train.service.LogService;
-import com.bootdo.train.utils.Query;
+import com.bootdo.common.domain.LogDO;
+import com.bootdo.common.domain.PageDO;
+import com.bootdo.common.service.LogService;
+import com.bootdo.common.utils.Query;
+import com.bootdo.common.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

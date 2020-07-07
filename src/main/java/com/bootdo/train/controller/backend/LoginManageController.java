@@ -1,14 +1,14 @@
 package com.bootdo.train.controller.backend;
 
+import com.bootdo.common.domain.FileDO;
+import com.bootdo.common.domain.Tree;
+import com.bootdo.common.service.FileService;
+import com.bootdo.common.utils.R;
+import com.bootdo.system.domain.MenuDO;
+import com.bootdo.system.domain.UserDO;
+import com.bootdo.system.service.MenuService;
+import com.bootdo.system.service.UserService;
 import com.bootdo.train.commons.Const;
-import com.bootdo.train.commons.R;
-import com.bootdo.train.pojo.FileDO;
-import com.bootdo.train.pojo.MenuDO;
-import com.bootdo.train.pojo.Tree;
-import com.bootdo.train.pojo.UserDO;
-import com.bootdo.train.service.FileService;
-import com.bootdo.train.service.MenuService;
-import com.bootdo.train.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

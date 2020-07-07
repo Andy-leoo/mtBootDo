@@ -1,7 +1,7 @@
 package com.bootdo.train.service;
 
+import com.bootdo.system.domain.UserDO;
 import com.bootdo.train.pojo.TrainInfo;
-import com.bootdo.train.pojo.UserDO;
 
 import java.util.List;
 import java.util.Map;

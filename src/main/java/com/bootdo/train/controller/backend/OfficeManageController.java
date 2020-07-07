@@ -1,12 +1,12 @@
 package com.bootdo.train.controller.backend;
 
+import com.bootdo.common.utils.PageUtils;
+import com.bootdo.common.utils.Query;
+import com.bootdo.common.utils.R;
+import com.bootdo.system.domain.UserDO;
 import com.bootdo.train.commons.Const;
-import com.bootdo.train.commons.R;
 import com.bootdo.train.pojo.Office;
-import com.bootdo.train.pojo.UserDO;
 import com.bootdo.train.service.OfficeService;
-import com.bootdo.train.utils.PageUtils;
-import com.bootdo.train.utils.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

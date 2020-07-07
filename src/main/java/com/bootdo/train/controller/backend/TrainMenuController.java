@@ -1,10 +1,10 @@
 package com.bootdo.train.controller.backend;
 
+import com.bootdo.common.domain.Tree;
+import com.bootdo.common.utils.R;
+import com.bootdo.system.domain.MenuDO;
+import com.bootdo.system.service.MenuService;
 import com.bootdo.train.commons.Const;
-import com.bootdo.train.commons.R;
-import com.bootdo.train.pojo.MenuDO;
-import com.bootdo.train.pojo.Tree;
-import com.bootdo.train.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

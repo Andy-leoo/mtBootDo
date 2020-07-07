@@ -1,8 +1,8 @@
 package com.bootdo.train.controller.backend;
 
-import com.bootdo.train.commons.R;
-import com.bootdo.train.pojo.RoleDO;
-import com.bootdo.train.service.RoleService;
+import com.bootdo.common.utils.R;
+import com.bootdo.system.domain.RoleDO;
+import com.bootdo.system.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

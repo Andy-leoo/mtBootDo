@@ -4,7 +4,7 @@
 
 <mapper namespace="com.bj.train.dao.ModuleDao">
 
-    <select id="list" resultType="com.bj.train.pojo.Module">
+    <select id="list" resultType="com.bootdo.train.pojo.Module">
         SELECT
         *
         FROM
@@ -24,7 +24,7 @@
         create_time DESC
     </select>
 
-    <update id="update" parameterType="com.bj.train.pojo.Module">
+    <update id="update" parameterType="com.bootdo.train.pojo.Module">
         update module
         <set>
             <if test="title != null">`title` = #{title}, </if>
@@ -36,7 +36,7 @@
         where id = #{id}
     </update>
 
-    <insert id="save" parameterType="com.bj.train.pojo.Module" useGeneratedKeys="true" keyProperty="id">
+    <insert id="save" parameterType="com.bootdo.train.pojo.Module" useGeneratedKeys="true" keyProperty="id">
 		insert into module
 		(
 			`title`,

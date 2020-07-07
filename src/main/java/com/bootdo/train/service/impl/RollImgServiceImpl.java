@@ -1,8 +1,8 @@
 package com.bootdo.train.service.impl;
 
+import com.bootdo.system.domain.UserDO;
 import com.bootdo.train.dao.RollImgDao;
 import com.bootdo.train.pojo.ScrollGraph;
-import com.bootdo.train.pojo.UserDO;
 import com.bootdo.train.service.RollImgService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

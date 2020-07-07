@@ -1,9 +1,9 @@
 package com.bootdo.train.service.impl;
 
 
+import com.bootdo.system.domain.UserDO;
 import com.bootdo.train.dao.TrainTelegramUserDao;
 import com.bootdo.train.pojo.TrainTelegramUser;
-import com.bootdo.train.pojo.UserDO;
 import com.bootdo.train.service.TrainTelegramUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

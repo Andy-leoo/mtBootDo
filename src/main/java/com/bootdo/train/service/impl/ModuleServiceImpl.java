@@ -1,8 +1,8 @@
 package com.bootdo.train.service.impl;
 
+import com.bootdo.system.domain.UserDO;
 import com.bootdo.train.dao.ModuleDao;
 import com.bootdo.train.pojo.Module;
-import com.bootdo.train.pojo.UserDO;
 import com.bootdo.train.service.ModuleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

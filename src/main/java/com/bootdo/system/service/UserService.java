@@ -1,16 +1,17 @@
 package com.bootdo.system.service;
 
+import com.bootdo.common.domain.Tree;
+import com.bootdo.common.utils.R;
+import com.bootdo.system.domain.DeptDO;
+import com.bootdo.system.domain.UserDO;
+import com.bootdo.system.vo.UserVO;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import com.bootdo.system.vo.UserVO;
-import org.springframework.stereotype.Service;
-
-import com.bootdo.common.domain.Tree;
-import com.bootdo.system.domain.DeptDO;
-import com.bootdo.system.domain.UserDO;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public interface UserService {
@@ -33,6 +34,7 @@ public interface UserService {
 	Set<String> listRoles(Long userId);
 
 	int resetPwd(UserVO userVO,UserDO userDO) throws Exception;
+	R resetPwd(UserVO userVO, UserDO userDO, String oldPwd) throws Exception;
 	int adminResetPwd(UserVO userVO) throws Exception;
 	Tree<DeptDO> getTree();
 
@@ -51,4 +53,15 @@ public interface UserService {
 	 * @throws Exception
 	 */
     Map<String, Object> updatePersonalImg(MultipartFile file, String avatar_data, Long userId) throws Exception;
+
+	/*
+    登入用户
+     */
+	R loginUser(String username, String password, HttpSession session);
+
+	void batchInsert(List<UserDO> userList);
+
+	String takeOldPwd(Long userId);
+
+	List<UserDO> selectUserByMenuId(Long menuId);
 }

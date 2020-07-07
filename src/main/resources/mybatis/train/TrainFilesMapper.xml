@@ -3,11 +3,11 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.bj.train.dao.TrainFilesDao">
-    <select id="selectAll" resultType="com.bj.train.pojo.TrainFiles">
+    <select id="selectAll" resultType="com.bootdo.train.pojo.TrainFiles">
         select * from train_files order by create_time desc
     </select>
 
-    <insert id="insert" parameterType="com.bj.train.pojo.TrainFiles" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insert" parameterType="com.bootdo.train.pojo.TrainFiles" useGeneratedKeys="true" keyProperty="id">
         insert into train_files (title,detail,main_image,create_time,creater,operate_time,operator)
         values (#{title},#{detail},#{mainImage}, #{createTime},#{creater},#{operateTime},#{operate})
      </insert>
@@ -16,7 +16,7 @@
         delete from train_files where id =#{id}
     </delete>
 
-    <select id="selectById" resultType="com.bj.train.pojo.TrainFiles">
+    <select id="selectById" resultType="com.bootdo.train.pojo.TrainFiles">
         select * from train_files where id =#{id}
     </select>
 

@@ -141,6 +141,23 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	@Override
+	public List<Tree<MenuDO>> getTree(Map<String, Object> map) {
+		List<Tree<MenuDO>> trees = new ArrayList<Tree<MenuDO>>();
+		List<MenuDO> menuDOs = menuMapper.list(map);
+		for (MenuDO sysMenuDO : menuDOs) {
+			Tree<MenuDO> tree = new Tree<MenuDO>();
+			tree.setId(sysMenuDO.getMenuId().toString());
+			tree.setParentId(sysMenuDO.getParentId().toString());
+			tree.setText(sysMenuDO.getName());
+			trees.add(tree);
+		}
+		// 默认顶级菜单为０，根据数据库实际情况调整
+		Tree<MenuDO> t = BuildTree.build(trees);
+		List<Tree<MenuDO>> list = BuildTree.buildList(trees, "111");
+		return list;
+	}
+
+	@Override
 	public List<Tree<MenuDO>> listMenuTree(Long id) {
 		List<Tree<MenuDO>> trees = new ArrayList<Tree<MenuDO>>();
 		List<MenuDO> menuDOs = menuMapper.listMenuByUserId(id);
@@ -153,6 +170,7 @@ public class MenuServiceImpl implements MenuService {
 			attributes.put("url", sysMenuDO.getUrl());
 			attributes.put("icon", sysMenuDO.getIcon());
 			tree.setAttributes(attributes);
+			tree.setType(sysMenuDO.getType());
 			trees.add(tree);
 		}
 		// 默认顶级菜单为０，根据数据库实际情况调整

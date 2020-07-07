@@ -1,18 +1,21 @@
 package com.bootdo.common.service.impl;
 
 import com.bootdo.common.config.BootdoConfig;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.io.File;
-import java.util.List;
-import java.util.Map;
-
 import com.bootdo.common.dao.FileDao;
 import com.bootdo.common.domain.FileDO;
 import com.bootdo.common.service.FileService;
-import org.springframework.util.Assert;
+import com.bootdo.common.utils.FileType;
+import com.bootdo.common.utils.FileUtil;
+import com.bootdo.common.utils.R;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -69,5 +72,18 @@ public class FileServiceImpl implements FileService {
 			}
 		}
 		return isExist;
+	}
+
+	@Override
+	public R uploadFile(MultipartFile file) {
+		String fileName = file.getOriginalFilename();
+		fileName = FileUtil.renameToUUID(fileName);
+		FileDO sysFile = new FileDO(FileType.fileType(fileName), "/files/" + fileName, new Date());
+		try {
+			FileUtil.uploadFile(file.getBytes(), bootdoConfig.getUploadPath(), fileName);
+			return R.ok().put("url",sysFile.getUrl());
+		} catch (Exception e) {
+			return R.error("上传文件失败！");
+		}
 	}
 	}

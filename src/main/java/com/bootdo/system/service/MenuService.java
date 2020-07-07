@@ -1,13 +1,12 @@
 package com.bootdo.system.service;
 
+import com.bootdo.common.domain.Tree;
+import com.bootdo.system.domain.MenuDO;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.springframework.stereotype.Service;
-
-import com.bootdo.common.domain.Tree;
-import com.bootdo.system.domain.MenuDO;
 
 @Service
 public interface MenuService {
@@ -30,4 +29,7 @@ public interface MenuService {
 	MenuDO get(Long id);
 
 	Set<String> listPerms(Long userId);
+
+	List<Tree<MenuDO>> getTree(Map<String, Object> map);
+
 }

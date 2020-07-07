@@ -1,6 +1,6 @@
 package com.bootdo.train.service.impl;
 
-import com.bootdo.train.pojo.UserDO;
+import com.bootdo.system.domain.UserDO;
 import com.bootdo.train.service.ExportService;
 import com.bootdo.train.utils.ExcelUtil;
 import org.apache.poi.hssf.usermodel.*;

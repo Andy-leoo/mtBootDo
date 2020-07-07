@@ -1,16 +1,16 @@
 package com.bootdo.train.controller.backend;
 
+import com.bootdo.common.service.FileService;
+import com.bootdo.common.utils.PageUtils;
+import com.bootdo.common.utils.Query;
+import com.bootdo.common.utils.R;
+import com.bootdo.system.domain.UserDO;
+import com.bootdo.system.service.UserService;
 import com.bootdo.train.commons.Const;
-import com.bootdo.train.commons.R;
 import com.bootdo.train.pojo.TrainFiles;
 import com.bootdo.train.pojo.TrainFilesUser;
-import com.bootdo.train.pojo.UserDO;
-import com.bootdo.train.service.FileService;
 import com.bootdo.train.service.TrainFilesService;
 import com.bootdo.train.service.TrainFilesUserService;
-import com.bootdo.train.service.UserService;
-import com.bootdo.train.utils.PageUtils;
-import com.bootdo.train.utils.Query;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

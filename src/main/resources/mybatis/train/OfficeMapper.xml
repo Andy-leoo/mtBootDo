@@ -3,17 +3,17 @@
 
 
 <mapper namespace="com.bj.train.dao.OfficeDao">
-    <select id="selectOne" resultType="com.bj.train.pojo.Office" parameterType="Long">
+    <select id="selectOne" resultType="com.bootdo.train.pojo.Office" parameterType="Long">
         select * from office where id = #{id}
     </select>
-    <select id="officeList" resultType="com.bj.train.pojo.Office">
+    <select id="officeList" resultType="com.bootdo.train.pojo.Office">
         select * from office
     </select>
-    <insert id="save" parameterType="com.bj.train.pojo.Office" useGeneratedKeys="true" keyProperty="id">
+    <insert id="save" parameterType="com.bootdo.train.pojo.Office" useGeneratedKeys="true" keyProperty="id">
         insert into office(title , main_url,detail,create_time,creater,sort)
         values(#{title},#{mainUrl},#{detail},#{createTime},#{creater},#{sort})
     </insert>
-    <update id="update" parameterType="com.bj.train.pojo.Office" >
+    <update id="update" parameterType="com.bootdo.train.pojo.Office" >
         update office
         <set>
           <if test="title != null" >title = #{title}</if>

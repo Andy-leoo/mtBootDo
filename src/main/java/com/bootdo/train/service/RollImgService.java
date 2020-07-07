@@ -1,7 +1,7 @@
 package com.bootdo.train.service;
 
+import com.bootdo.system.domain.UserDO;
 import com.bootdo.train.pojo.ScrollGraph;
-import com.bootdo.train.pojo.UserDO;
 
 import java.util.List;
 

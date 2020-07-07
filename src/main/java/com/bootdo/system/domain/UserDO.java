@@ -50,6 +50,8 @@ public class UserDO implements Serializable {
     private String city;
     //所在地区
     private String district;
+    //角色
+    private int role = 0;
 
     public Long getUserId() {
         return userId;
@@ -217,6 +219,14 @@ public class UserDO implements Serializable {
 
     public void setDistrict(String district) {
         this.district = district;
+    }
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
     }
 
     @Override

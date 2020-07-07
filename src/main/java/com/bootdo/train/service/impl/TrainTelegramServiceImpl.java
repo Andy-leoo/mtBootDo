@@ -1,9 +1,9 @@
 package com.bootdo.train.service.impl;
 
+import com.bootdo.system.domain.UserDO;
 import com.bootdo.train.dao.TrainTelegramDao;
 import com.bootdo.train.dao.TrainTelegramUserDao;
 import com.bootdo.train.pojo.TrainTelegram;
-import com.bootdo.train.pojo.UserDO;
 import com.bootdo.train.service.TrainTelegramService;
 import com.bootdo.train.service.TrainTelegramUserService;
 import com.bootdo.train.utils.RegEx_util;

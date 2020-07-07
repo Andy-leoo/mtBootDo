@@ -1,12 +1,17 @@
 package com.bootdo.train.controller.portal;
 
+import com.bootdo.blog.service.ContentService;
 import com.bootdo.common.annotation.Log;
+import com.bootdo.common.utils.R;
+import com.bootdo.system.domain.DeptDO;
+import com.bootdo.system.domain.UserDO;
+import com.bootdo.system.service.DeptService;
+import com.bootdo.system.service.UserService;
+import com.bootdo.system.vo.UserVO;
 import com.bootdo.train.commons.Const;
-import com.bootdo.train.commons.R;
 import com.bootdo.train.pojo.*;
 import com.bootdo.train.service.*;
 import com.bootdo.train.utils.RegEx_util;
-import com.bootdo.train.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

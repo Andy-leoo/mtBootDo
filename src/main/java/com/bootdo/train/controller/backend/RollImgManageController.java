@@ -1,10 +1,10 @@
 package com.bootdo.train.controller.backend;
 
+import com.bootdo.common.service.FileService;
+import com.bootdo.common.utils.R;
+import com.bootdo.system.domain.UserDO;
 import com.bootdo.train.commons.Const;
-import com.bootdo.train.commons.R;
 import com.bootdo.train.pojo.ScrollGraph;
-import com.bootdo.train.pojo.UserDO;
-import com.bootdo.train.service.FileService;
 import com.bootdo.train.service.RollImgService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

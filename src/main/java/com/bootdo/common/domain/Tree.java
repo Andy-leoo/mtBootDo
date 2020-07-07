@@ -1,10 +1,10 @@
 package com.bootdo.common.domain;
 
+import com.alibaba.fastjson.JSON;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import com.alibaba.fastjson.JSON;
 
 /**
  * tree TODO <br>
@@ -51,6 +51,19 @@ public class Tree<T> {
 	 * 是否有子节点
 	 */
 	private boolean hasChildren = false;
+
+	/**
+	 * type类型
+	 */
+	private Integer type=0;
+
+	public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
+	}
 
 	public String getId() {
 		return id;

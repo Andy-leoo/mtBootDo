@@ -3,7 +3,7 @@
 
 
 <mapper namespace="com.bj.train.dao.DeptModuleDao">
-    <select id="list" resultType="com.bj.train.pojo.DeptModule">
+    <select id="list" resultType="com.bootdo.train.pojo.DeptModule">
         SELECT
         dm.*
         FROM
@@ -24,7 +24,7 @@
     </select>
 
 
-    <update id="update" parameterType="com.bj.train.pojo.DeptModule">
+    <update id="update" parameterType="com.bootdo.train.pojo.DeptModule">
         update dept_module
         <set>
             <if test="dept_id != null">`dept_id` = #{dept_id}, </if>
@@ -35,7 +35,7 @@
         where id = #{id}
     </update>
 
-    <insert id="save" parameterType="com.bj.train.pojo.DeptModule" useGeneratedKeys="true" keyProperty="id">
+    <insert id="save" parameterType="com.bootdo.train.pojo.DeptModule" useGeneratedKeys="true" keyProperty="id">
 		insert into dept_module
 		(
 			`dept_id`,

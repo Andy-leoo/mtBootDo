@@ -1,13 +1,14 @@
 package com.bootdo.common.utils;
 
-import com.alibaba.druid.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.bootdo.common.domain.InfDO;
-import com.bootdo.workcode.bean.IntelligentInfDo;
-import com.google.common.collect.Lists;
-import org.apache.velocity.runtime.directive.Foreach;
+import com.alibaba.fastjson.TypeReference;
+import org.codehaus.jackson.map.DeserializationConfig;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.SerializationConfig;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.map.ser.impl.SimpleFilterProvider;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,6 +16,39 @@ import java.util.List;
 import java.util.Map;
 
 public class JSONUtils {
+
+
+	private static ObjectMapper ObjectMapper = new ObjectMapper();
+
+	static {
+		// config
+		ObjectMapper.disable(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES);
+		ObjectMapper.configure(SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS, false);
+		ObjectMapper.setFilters(new SimpleFilterProvider().setFailOnUnknownId(false));
+		ObjectMapper.setSerializationInclusion(JsonSerialize.Inclusion.NON_EMPTY);
+	}
+
+	public static <T> String obootdo2String(T src) {
+		if (src == null) {
+			return null;
+		}
+		try {
+			return src instanceof String ? (String) src : ObjectMapper.writeValueAsString(src);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	public static <T> T string2Obootdo(String src, TypeReference<T> typeReference) {
+		if (src == null || typeReference == null) {
+			return null;
+		}
+		try {
+			return (T) (typeReference.getType().equals(String.class) ? src : ObjectMapper.readValue(src, typeReference.getClass()));
+		} catch (Exception e) {
+			return null;
+		}
+	}
 	/**
 	 * Bean对象转JSON
 	 * 

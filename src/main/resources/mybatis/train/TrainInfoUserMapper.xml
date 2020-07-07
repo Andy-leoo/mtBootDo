@@ -3,20 +3,20 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.bj.train.dao.TrainInfoUserDao">
-    <select id="selectByInfoId" resultType="com.bj.train.pojo.TrainInfoUser">
+    <select id="selectByInfoId" resultType="com.bootdo.train.pojo.TrainInfoUser">
         select fu.*,u.name name
         from train_info_user fu
         left join sys_user u on fu.user_id = u.user_id
         where fu.info_id = #{infoId}
     </select>
-    <select id="selectByUserId" resultType="com.bj.train.pojo.TrainInfoUser">
+    <select id="selectByUserId" resultType="com.bootdo.train.pojo.TrainInfoUser">
         select * from train_info_user where user_id = #{userId} order by create_time desc limit 0,4
     </select>
-    <insert id="insert" parameterType="com.bj.train.pojo.TrainInfoUser" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insert" parameterType="com.bootdo.train.pojo.TrainInfoUser" useGeneratedKeys="true" keyProperty="id">
         insert into train_info_user (info_id,user_id,status,create_time,creater,operate_time,operater)
         values (#{infoId},#{userId},#{status},#{createTime},#{creater},#{operateTime},#{operater})
      </insert>
-    <update id="updateStatus" parameterType="com.bj.train.pojo.TrainInfoUser">
+    <update id="updateStatus" parameterType="com.bootdo.train.pojo.TrainInfoUser">
         update train_info_user set
         status=#{status},
         operate_time=#{operateTime},
@@ -28,7 +28,7 @@
         delete from train_info_user where info_id =  #{infoId}
     </delete>
 
-    <select id="queryMoreInfoByUserId" resultType="com.bj.train.pojo.TrainInfoUser">
+    <select id="queryMoreInfoByUserId" resultType="com.bootdo.train.pojo.TrainInfoUser">
         SELECT
         iu.*,
         i.title title

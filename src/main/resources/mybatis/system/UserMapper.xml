@@ -29,6 +29,7 @@
 		  		  <if test="province != null and province != ''"> and province = #{province} </if>
 		  		  <if test="city != null and city != ''"> and city = #{city} </if>
 		  		  <if test="district != null and district != ''"> and district = #{district} </if>
+			<if test="role != null and role != ''">and `role` = #{role}</if>
 		  		</where>
         <choose>
             <when test="sort != null and sort.trim() != ''">
@@ -65,6 +66,7 @@
 		  		  <if test="province != null and province != ''"> and province = #{province} </if>
 		  		  <if test="city != null and city != ''"> and city = #{city} </if>
 		  		  <if test="district != null and district != ''"> and district = #{district} </if>
+			 <if test="role != null and role != ''">and `role` = #{role}</if>
 		  		</where>
 	</select>
 	 
@@ -88,7 +90,8 @@
 			`hobby`, 
 			`province`, 
 			`city`, 
-			`district`
+			`district`,
+			`role`
 		)
 		values
 		(
@@ -109,7 +112,8 @@
 			#{hobby}, 
 			#{province}, 
 			#{city}, 
-			#{district}
+			#{district},
+			#{role}
 		)
 	</insert>
 	 
@@ -133,7 +137,8 @@
 			<if test="hobby != null">`hobby` = #{hobby}, </if>
 			<if test="province != null">`province` = #{province}, </if>
 			<if test="city != null">`city` = #{city}, </if>
-			<if test="district != null">`district` = #{district}</if>
+			<if test="district != null">`district` = #{district},</if>
+			<if test="role != null">`role` = #{role}</if>
 		</set>
 		where user_id = #{userId}
 	</update>
@@ -151,5 +156,68 @@
 
 	<select id="listAllDept" resultType="long">
 				select DISTINCT dept_id from sys_user
+	</select>
+
+
+	<select id="checkUserName" resultType="int" parameterType="String">
+		select count(1) from sys_user where username = #{username}
+	</select>
+
+	<select id="selectLoginUser" parameterType="map" resultType="com.bootdo.system.domain.UserDO">
+		select * from sys_user where username=#{username} and password=#{password}
+	</select>
+
+	<insert id="barchInsert" parameterType="List" useGeneratedKeys="false">
+		insert into sys_user
+		(
+		`username`,
+		`name`,
+		`password`,
+		`dept_id`,
+		`email`,
+		`mobile`,
+		`status`,
+		`user_id_create`,
+		`gmt_create`,
+		`gmt_modified`,
+		`sex`,
+		`birth`,
+		`pic_id`,
+		`live_address`,
+		`hobby`,
+		`province`,
+		`city`,
+		`district`,
+		`role`
+		)
+		values
+		<foreach collection="list" item="user" index="index" separator=",">
+			(
+			#{user.username},
+			#{user.name},
+			#{user.password},
+			#{user.deptId},
+			#{user.email},
+			#{user.mobile},
+			#{user.status},
+			#{user.userIdCreate},
+			#{user.gmtCreate},
+			#{user.gmtModified},
+			#{user.sex},
+			#{user.birth},
+			#{user.picId},
+			#{user.liveAddress},
+			#{user.hobby},
+			#{user.province},
+			#{user.city},
+			#{user.district},
+			#{user.role}
+			)
+		</foreach>
+
+	</insert>
+
+	<select id="takeOldPwd" parameterType="Long" resultType="String">
+		select password from sys_user where user_id = #{userId}
 	</select>
 </mapper>

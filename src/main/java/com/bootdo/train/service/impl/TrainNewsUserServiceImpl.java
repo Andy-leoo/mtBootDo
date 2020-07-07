@@ -1,8 +1,8 @@
 package com.bootdo.train.service.impl;
 
+import com.bootdo.system.domain.UserDO;
 import com.bootdo.train.dao.TrainNewsUserDao;
 import com.bootdo.train.pojo.TrainNewsUser;
-import com.bootdo.train.pojo.UserDO;
 import com.bootdo.train.service.TrainNewsUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,7 @@ public class TrainNewsUserServiceImpl implements TrainNewsUserService {
     }
 
     @Override
-    public int updateStatus(Long newsId,UserDO userDO) {
+    public int updateStatus(Long newsId, UserDO userDO) {
         TrainNewsUser newsUser = new TrainNewsUser();
         newsUser.setNewsId(newsId);
         newsUser.setUserId(userDO.getUserId());

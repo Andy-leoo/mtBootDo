@@ -1,11 +1,10 @@
 package com.bootdo.system.dao;
 
 import com.bootdo.system.domain.UserRoleDO;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 用户与角色对应关系
@@ -40,4 +39,6 @@ public interface UserRoleDao {
 	int batchSave(List<UserRoleDO> list);
 
 	int batchRemoveByUserId(Long[] ids);
+
+	String checkRoleAdmin(Long userId);
 }

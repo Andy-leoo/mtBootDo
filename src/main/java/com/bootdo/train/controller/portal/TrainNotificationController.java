@@ -1,11 +1,13 @@
 package com.bootdo.train.controller.portal;
 
+import com.bootdo.common.utils.PageUtils;
+import com.bootdo.common.utils.Query;
+import com.bootdo.system.domain.UserDO;
 import com.bootdo.train.commons.Const;
-import com.bootdo.train.pojo.*;
+import com.bootdo.train.pojo.TrainNotification;
+import com.bootdo.train.pojo.TrainNotificationUser;
 import com.bootdo.train.service.TrainNotificationService;
 import com.bootdo.train.service.TrainNotificationUserService;
-import com.bootdo.train.utils.PageUtils;
-import com.bootdo.train.utils.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

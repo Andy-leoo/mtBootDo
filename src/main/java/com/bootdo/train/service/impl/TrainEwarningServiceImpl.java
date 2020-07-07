@@ -1,9 +1,9 @@
 package com.bootdo.train.service.impl;
 
+import com.bootdo.system.domain.UserDO;
 import com.bootdo.train.dao.TrainEwarningDao;
 import com.bootdo.train.dao.TrainEwarningUserDao;
 import com.bootdo.train.pojo.TrainEwarning;
-import com.bootdo.train.pojo.UserDO;
 import com.bootdo.train.service.TrainEwarningService;
 import com.bootdo.train.service.TrainEwarningUserService;
 import com.bootdo.train.utils.RegEx_util;

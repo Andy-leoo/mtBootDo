@@ -1,8 +1,8 @@
 package com.bootdo.train.service.impl;
 
+import com.bootdo.system.domain.UserDO;
 import com.bootdo.train.dao.LeaderSpeechDao;
 import com.bootdo.train.pojo.LeaderSpeech;
-import com.bootdo.train.pojo.UserDO;
 import com.bootdo.train.service.LeaderSpeechService;
 import com.bootdo.train.service.LeaderSpeechUserService;
 import com.bootdo.train.utils.RegEx_util;

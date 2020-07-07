@@ -101,4 +101,11 @@
 			(#{item.userId},#{item.roleId})
 		</foreach>
 	</insert>
+
+
+	<select id="checkRoleAdmin" resultType="String" >
+		select r.role_name from sys_user_role ur
+		LEFT JOIN sys_role r ON ur.role_id = r.role_id
+		where user_id= #{userId};
+	</select>
 </mapper>

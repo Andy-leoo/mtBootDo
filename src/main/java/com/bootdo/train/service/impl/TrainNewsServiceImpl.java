@@ -1,9 +1,9 @@
 package com.bootdo.train.service.impl;
 
+import com.bootdo.system.domain.UserDO;
 import com.bootdo.train.dao.TrainNewsDao;
 import com.bootdo.train.dao.TrainNewsUserDao;
 import com.bootdo.train.pojo.TrainNews;
-import com.bootdo.train.pojo.UserDO;
 import com.bootdo.train.service.TrainNewsService;
 import com.bootdo.train.service.TrainNewsUserService;
 import com.bootdo.train.utils.RegEx_util;
