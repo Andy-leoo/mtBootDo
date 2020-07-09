@@ -1,4 +1,4 @@
-package com.bootdo.learning.com;
+package com.bootdo.learning.com.lambda;
 
 /**
  * <Description> <br>

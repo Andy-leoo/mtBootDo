@@ -1,4 +1,4 @@
-package com.bootdo.learning.com;
+package com.bootdo.learning.com.lambda;
 
 import java.util.ArrayList;
 import java.util.List;
