@@ -1,0 +1,53 @@
+# datasource 数据链接 配置
+spring:
+  shardingsphere:
+    datasource:
+      names: ds0,ds1
+      ds0:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.jdbc.Driver
+        url: jdbc:mysql://127.0.0.1:3306/bootdo?useUnicode=true&characterEncoding=utf8
+        username: root
+        password: root
+
+      ds1:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.jdbc.Driver
+        url: jdbc:mysql://127.0.0.1:3306/bootdotwo?useUnicode=true&characterEncoding=utf8
+        username: root
+        password: root
+#         sharding -database 分片 配置
+    sharding:
+      tables:
+#        根据position表来进行分
+        position:
+          database-strategy:
+            inline:
+#              根据主键id
+              sharding-column: id
+#              根据id取模 来判断选取那个库
+              algorithm-expression: ds$->{id % 2}
+#         id 这里可以指定 ss 自带的主键生成策略  UUID \ SNOWFLAKE 两种   这里也可以自定义主键生成策略
+          key-generator:
+            column: id
+            type: SNOWFLAKE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

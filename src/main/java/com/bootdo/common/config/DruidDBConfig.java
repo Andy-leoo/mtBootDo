@@ -1,4 +1,5 @@
 package com.bootdo.common.config;
+
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
@@ -17,6 +18,7 @@ import java.sql.SQLException;
 /**
  * Created by PrimaryKey on 17/2/4.
  */
+
 @SuppressWarnings("AlibabaRemoveCommentedCode")
 @Configuration
 public class DruidDBConfig {

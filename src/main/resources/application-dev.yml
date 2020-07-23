@@ -66,4 +66,4 @@ elasticsearch:
   #注意cluster.name需要与config/elasticsearch.yml中的cluster.name一致
   cluster:
     name: andy
-
+  timeout: 5000
