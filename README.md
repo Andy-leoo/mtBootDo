@@ -180,3 +180,8 @@
         LINUX 安装 ELK 
   
   学习jdk8 新特性 - lambda表达式
+  
+  sharding-JDBC 分库分表学习
+    
+    使用yml 配置文件进行分库分表
+    使用config配置类进行分库分表
