@@ -1,7 +1,5 @@
 package com.bootdo.workcode.bean;
 
-import javax.print.DocFlavor;
-
 /**
  * <Description> <br>
  *
@@ -9,7 +7,7 @@ import javax.print.DocFlavor;
  * @version 1.0<br>
  * @taskId: <br>
  * @createDate 2020/06/18 16:33 <br>
- * @ 数据库实体类
+ * @ 数据库实体类  ， es 对象
  * @see com.bootdo.workcode.bean <br>
  */
 public class IntelligentInfDo {
@@ -102,5 +100,28 @@ public class IntelligentInfDo {
 
     public void setCcbContent(String ccbContent) {
         this.ccbContent = ccbContent;
+    }
+
+    public IntelligentInfDo(long id, String infId, String content, String publishAt, String title, String summary, String author, String thumbnailType, String ccbContent) {
+        this.id = id;
+        this.infId = infId;
+        this.content = content;
+        this.publishAt = publishAt;
+        this.title = title;
+        this.summary = summary;
+        this.author = author;
+        this.thumbnailType = thumbnailType;
+        this.ccbContent = ccbContent;
+    }
+
+    public IntelligentInfDo(long id, String infId, String content, String publishAt, String title) {
+        this.id = id;
+        this.infId = infId;
+        this.content = content;
+        this.publishAt = publishAt;
+        this.title = title;
+    }
+
+    public IntelligentInfDo() {
     }
 }

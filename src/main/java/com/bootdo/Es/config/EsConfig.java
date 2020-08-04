@@ -39,7 +39,9 @@ public class EsConfig {
 
     @Bean
     public RestHighLevelClient restHighLevelClient(){
-        RestClientBuilder builder = RestClient.builder(new HttpHost(hostName, Integer.valueOf(port), "http"));
+        //这里可以配置多个 host （集群）
+        RestClientBuilder builder = RestClient.builder(
+                new HttpHost(hostName, Integer.valueOf(port), "http"));
 
         builder.setRequestConfigCallback(requestConfigBuilder  -> {
             //设置超时
