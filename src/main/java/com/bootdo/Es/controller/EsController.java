@@ -1,98 +1,32 @@
 package com.bootdo.Es.controller;
 
-import com.bootdo.Es.config.EsConfig;
-import org.apache.lucene.search.TotalHits;
-import org.elasticsearch.action.delete.DeleteResponse;
-import org.elasticsearch.action.get.GetResponse;
-import org.elasticsearch.action.index.IndexResponse;
-import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchRequestBuilder;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.action.search.SearchType;
-import org.elasticsearch.action.update.UpdateRequest;
-import org.elasticsearch.action.update.UpdateResponse;
-import org.elasticsearch.client.RequestOptions;
+import com.bootdo.Es.service.EsService;
+import com.bootdo.workcode.bean.IntelligentInfDo;
 import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.common.xcontent.XContentFactory;
-import org.elasticsearch.index.query.*;
-import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.SearchHits;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
+import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/es")
 public class EsController {
 
     @Autowired
     private RestHighLevelClient restHighLevelClient;
 
-    @RequestMapping("/query/id")
-    public String boolQuery() {
-        // 搜索请求对象
-        SearchRequest inf = new SearchRequest("inf");
-        // 搜索源构建对象
-        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+    @Autowired
+    private EsService esService;
 
-       //定义一个termQuery
-        TermQueryBuilder termQueryBuilder = QueryBuilders.termQuery("inf_id", "5cc450a5de4df60001741e86");
+    @RequestMapping("/index")
+    public String jdQuery() {
+        return "/es/index";
+    }
 
-        //定义一个boolQuery
-        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
-        boolQueryBuilder.must(termQueryBuilder);
-
-        searchSourceBuilder.query(boolQueryBuilder);
-
-        //向搜索请求对象设置搜索源
-        inf.source(searchSourceBuilder);
-
-        //执行搜索，向ES发起http请求
-        SearchResponse response = null;
-        try {
-            response = restHighLevelClient.search(inf, RequestOptions.DEFAULT);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                restHighLevelClient.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        // 搜索结果
-        SearchHits hits = response.getHits();
-        // 匹配到的总计录
-        TotalHits totalHits = hits.getTotalHits();
-        // 得到文档
-        SearchHit[] searchHits = hits.getHits();
-
-        System.out.println("总数：" + totalHits.value);
-
-        for (SearchHit searchHit : searchHits) {
-            //文档id
-            String id = searchHit.getId();
-            //源文档内容
-            Map<String, Object> sourceAsMap = searchHit.getSourceAsMap();
-
-            String inf_ID = (String) sourceAsMap.get("inf_id");
-            String title = (String) sourceAsMap.get("title");
-            String content = (String) sourceAsMap.get("content");
-            System.out.println("inf_ID: " + inf_ID + "; title: " + title + "; content: " + content);
-
-
-        }
-        return "1";
+    @RequestMapping("/queryAll")
+    public List<IntelligentInfDo> boolQuery() {
+        return esService.boolQuery(1,10);
     }
 
 

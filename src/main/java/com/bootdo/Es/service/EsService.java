@@ -2,6 +2,7 @@ package com.bootdo.Es.service;
 
 import com.alibaba.fastjson.JSON;
 import com.bootdo.workcode.bean.IntelligentInfDo;
+import org.apache.lucene.search.TotalHits;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
@@ -21,17 +22,23 @@ import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.CreateIndexRequest;
 import org.elasticsearch.client.indices.CreateIndexResponse;
 import org.elasticsearch.client.indices.GetIndexRequest;
+import org.elasticsearch.common.text.Text;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.TermQueryBuilder;
+import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.fetch.subphase.FetchSourceContext;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -50,6 +57,163 @@ public class EsService {
     //面向对象操作
     @Autowired
     private RestHighLevelClient restHighLevelClient;
+
+    // 精准查询
+    public List<Map<String , Object>> termQuery(String infId , int pageNo,int pageSize) {
+        // 搜索请求对象
+        SearchRequest inf = new SearchRequest("inf");
+        // 搜索源构建对象
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        //分页
+        searchSourceBuilder.from(pageNo);
+        searchSourceBuilder.size(pageSize);
+        //定义一个termQuery  精准查询 ,可以查询一个归类列表 ，或者 某个固定的 id
+        TermQueryBuilder termQueryBuilder = QueryBuilders.termQuery("inf_id", infId);
+
+        searchSourceBuilder.query(termQueryBuilder);
+
+
+        //高亮显示
+        HighlightBuilder highlightBuilder = new HighlightBuilder();
+        highlightBuilder.field("title");// 指定要高亮的 地段
+        highlightBuilder.requireFieldMatch(false); // 多个高亮显示  ，false 不需要多个高亮
+        //配置高亮显示的样式
+        highlightBuilder.preTags("<span style= 'color:red'>");
+        highlightBuilder.postTags("</span>");
+        searchSourceBuilder.highlighter(highlightBuilder);
+
+        //向搜索请求对象设置搜索源
+        inf.source(searchSourceBuilder);
+
+        //执行搜索，向ES发起http请求
+        SearchResponse response = null;
+        try {
+            response = restHighLevelClient.search(inf, RequestOptions.DEFAULT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                restHighLevelClient.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        List<Map<String , Object>> list = new ArrayList<>();
+        //解析结果
+        for (SearchHit hit : response.getHits().getHits()) {
+//            list.add(documentFields.getSourceAsMap());
+
+            // 如果需要高亮 则需要将高亮的字段 ，进行替换
+            Map<String, HighlightField> highlightFields = hit.getHighlightFields();
+            HighlightField title = highlightFields.get("title");// 找到 高亮的字段
+            Map<String, Object> sourceAsMap = hit.getSourceAsMap();// 获取原来的结果
+
+            //解析高亮的字段，将原来的字段 替换为 高亮字段
+            if (title != null) {
+                Text[] fragments = title.fragments();
+                String n_title = "";
+                for (Text text : fragments) {
+                    n_title += text;
+                }
+                sourceAsMap.put("title",n_title);//高亮字段替换为原来的字段
+            }
+            list.add(sourceAsMap);
+        }
+//
+//        // 搜索结果
+//        SearchHits hits = response.getHits();
+//        // 匹配到的总计录
+//        TotalHits totalHits = hits.getTotalHits();
+//        // 得到文档
+//        SearchHit[] searchHits = hits.getHits();
+//
+//        System.out.println("总数：" + totalHits.value);
+//
+//        List<IntelligentInfDo> infDos = new ArrayList<>();
+//
+//        for (SearchHit searchHit : searchHits) {
+//            //文档id
+//            String id = searchHit.getId();
+//            //源文档内容
+//            Map<String, Object> sourceAsMap = searchHit.getSourceAsMap();
+//
+//            String inf_ID = (String) sourceAsMap.get("inf_id");
+//            String title = (String) sourceAsMap.get("title");
+//            String content = (String) sourceAsMap.get("content");
+//            String publishAt = (String) sourceAsMap.get("publish_at");
+//            System.out.println("inf_ID: " + inf_ID + "; title: " + title + "; content: " + content);
+//            infDos.add(new IntelligentInfDo(Long.valueOf(id),inf_ID,content,publishAt,title));
+//
+//        }
+        return list;
+    }
+
+
+
+    //
+    public List<IntelligentInfDo> boolQuery(int pageNo,int pageSize) {
+        // 搜索请求对象
+        SearchRequest inf = new SearchRequest("inf");
+        // 搜索源构建对象
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        //分页
+        searchSourceBuilder.from(pageNo);
+        searchSourceBuilder.size(pageSize);
+        //定义一个termQuery  精准查询 ,可以查询一个归类列表 ，或者 某个固定的 id
+        TermQueryBuilder termQueryBuilder = QueryBuilders.termQuery("inf_id", "5cc450a5de4df60001741e86");
+//        MatchAllQueryBuilder matchAllQueryBuilder = QueryBuilders.matchAllQuery();
+
+        //定义一个boolQuery
+//        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+//        boolQueryBuilder.must(matchAllQueryBuilder);
+
+        searchSourceBuilder.query(termQueryBuilder);
+
+        //向搜索请求对象设置搜索源
+        inf.source(searchSourceBuilder);
+
+        //执行搜索，向ES发起http请求
+        SearchResponse response = null;
+        try {
+            response = restHighLevelClient.search(inf, RequestOptions.DEFAULT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                restHighLevelClient.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // 搜索结果
+        SearchHits hits = response.getHits();
+        // 匹配到的总计录
+        TotalHits totalHits = hits.getTotalHits();
+        // 得到文档
+        SearchHit[] searchHits = hits.getHits();
+
+        System.out.println("总数：" + totalHits.value);
+
+        List<IntelligentInfDo> infDos = new ArrayList<>();
+
+        for (SearchHit searchHit : searchHits) {
+            //文档id
+            String id = searchHit.getId();
+            //源文档内容
+            Map<String, Object> sourceAsMap = searchHit.getSourceAsMap();
+
+            String inf_ID = (String) sourceAsMap.get("inf_id");
+            String title = (String) sourceAsMap.get("title");
+            String content = (String) sourceAsMap.get("content");
+            String publishAt = (String) sourceAsMap.get("publish_at");
+            System.out.println("inf_ID: " + inf_ID + "; title: " + title + "; content: " + content);
+            infDos.add(new IntelligentInfDo(Long.valueOf(id),inf_ID,content,publishAt,title));
+
+        }
+        return infDos;
+    }
 
     //测试索引创建 request  相当于 PUT
     public void createIndex() throws IOException {
