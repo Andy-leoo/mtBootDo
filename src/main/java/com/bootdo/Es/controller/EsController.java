@@ -1,20 +1,18 @@
 package com.bootdo.Es.controller;
 
 import com.bootdo.Es.service.EsService;
-import com.bootdo.workcode.bean.IntelligentInfDo;
-import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/es")
 public class EsController {
 
-    @Autowired
-    private RestHighLevelClient restHighLevelClient;
 
     @Autowired
     private EsService esService;
@@ -24,9 +22,11 @@ public class EsController {
         return "/es/index";
     }
 
-    @RequestMapping("/queryAll")
-    public List<IntelligentInfDo> boolQuery() {
-        return esService.boolQuery(1,10);
+    @RequestMapping("/search/{keyword}/{pageNo}/{pageSize}")
+    public List<Map<String , Object>> boolQuery(@RequestParam("keyword") String keyword,
+                                                @RequestParam("pageNo") int pageNo,
+                                                @RequestParam("pageSize") int pageSize) {
+        return esService.termQuery(keyword,pageNo,pageSize);
     }
 
 

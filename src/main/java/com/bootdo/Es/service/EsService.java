@@ -34,6 +34,7 @@ import org.elasticsearch.search.fetch.subphase.FetchSourceContext;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -52,6 +53,7 @@ import java.util.concurrent.TimeUnit;
  * @ 业务逻辑
  * @see com.bootdo.Es.service <br>
  */
+@Service
 public class EsService {
 
     //面向对象操作
@@ -60,6 +62,8 @@ public class EsService {
 
     // 精准查询
     public List<Map<String , Object>> termQuery(String infId , int pageNo,int pageSize) {
+
+        System.out.println(infId + pageNo + pageSize);
         // 搜索请求对象
         SearchRequest inf = new SearchRequest("inf");
         // 搜索源构建对象
