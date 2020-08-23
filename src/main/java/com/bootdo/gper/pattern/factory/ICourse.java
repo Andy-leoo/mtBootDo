@@ -1,4 +1,4 @@
-package com.bootdo.gper.pattern.factory.SimpleFactory;
+package com.bootdo.gper.pattern.factory;
 
 public interface ICourse {
     /** 录制视频 */

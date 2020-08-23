@@ -1,5 +1,7 @@
 package com.bootdo.gper.pattern.factory.SimpleFactory;
 
+import com.bootdo.gper.pattern.factory.ICourse;
+
 /**
  * <Description> <br>
  *
